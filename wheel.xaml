@@ -1,0 +1,92 @@
+﻿<Window x:Class="Prog2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Prog2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid RenderTransformOrigin="0.495,0.441">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Slider x:Name="raddar_slider" HorizontalAlignment="Left" Height="45" Margin="152,365,0,0" VerticalAlignment="Top" Width="480"/>
+        <Slider x:Name="throttle_slider" HorizontalAlignment="Left" Height="45" Margin="152,320,0,0" VerticalAlignment="Top" Width="480"/>
+        <TextBlock HorizontalAlignment="Left" Height="45" Margin="10,287,0,0" TextWrapping="Wrap" Text="   throttle" VerticalAlignment="Top" Width="120" FontSize="25" FontFamily="Segoe UI Semibold" Foreground="#FFA865EE" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+        <TextBlock HorizontalAlignment="Left" Height="45" Margin="10,349,0,0" TextWrapping="Wrap" Text="   raddar" VerticalAlignment="Top" Width="120" FontSize="25" FontFamily="Segoe UI Semibold" Foreground="#FFA855F1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+        <Ellipse Fill="White" HorizontalAlignment="Left" Height="247" Margin="272,55,0,0" VerticalAlignment="Top" Width="246" RenderTransformOrigin="10,254" Stroke="Black"/>
+        <Ellipse Fill="#FFDFBCF3" HorizontalAlignment="Left" Height="141" Margin="325,108,0,0" Stroke="Black" VerticalAlignment="Top" Width="135" RenderTransformOrigin="0.492,0.483"/>
+        <Image HorizontalAlignment="Left" Height="42" Margin="377,66,0,0" VerticalAlignment="Top" Width="40" Source="http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/triangle-with-rounded-corners.png" RenderTransformOrigin="0.474,0.496" OpacityMask="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
+        <Image HorizontalAlignment="Left" Height="42" Margin="467,159,0,0" VerticalAlignment="Top" Width="40" Source="http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/triangle-with-rounded-corners.png" RenderTransformOrigin="0.474,0.496" OpacityMask="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image HorizontalAlignment="Left" Height="42" Margin="376,253,0,0" VerticalAlignment="Top" Width="40" Source="http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/triangle-with-rounded-corners.png" RenderTransformOrigin="0.474,0.496" OpacityMask="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="180"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Ellipse x:Name="center_circle" HorizontalAlignment="Left" Height="52" Margin="366,153,0,0" Stroke="Black" VerticalAlignment="Top" Width="51" RenderTransformOrigin="0.557,0.525">
+            <Ellipse.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
+                    <GradientStop Color="#FECA83F3" Offset="0.967"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Image HorizontalAlignment="Left" Height="42" Margin="280,157,0,0" VerticalAlignment="Top" Width="40" Source="http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/triangle-with-rounded-corners.png" RenderTransformOrigin="0.802,0.515" OpacityMask="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="270"/>
+                    <TranslateTransform X="-12.322" Y="-13.918"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <TextBox HorizontalAlignment="Left" Height="40" Margin="346,10,0,0" TextWrapping="Wrap" Text="aileron" VerticalAlignment="Top" Width="84" TextChanged="TextBox_TextChanged" FontSize="25" BorderBrush="White"/>
+        <TextBox HorizontalAlignment="Left" Height="40" Margin="514,138,0,0" TextWrapping="Wrap" Text="elevator" VerticalAlignment="Top" Width="102" TextChanged="TextBox_TextChanged_1" FontSize="25" BorderBrush="White" RenderTransformOrigin="0.5,0.5">
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+        </TextBox>
+        <Image HorizontalAlignment="Left" Height="53" Margin="558,193,0,0" VerticalAlignment="Top" Width="129" Source="https://t3.ftcdn.net/jpg/03/16/76/42/360_F_316764217_xntjAQik2CVBIUQFgBhD5ILikNlA1qto.jpg" RenderTransformOrigin="0.75,-0.129">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform X="1.087" Y="65.587"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image HorizontalAlignment="Left" Height="53" Margin="437,-60,0,0" VerticalAlignment="Top" Width="129" Source="https://t3.ftcdn.net/jpg/03/16/76/42/360_F_316764217_xntjAQik2CVBIUQFgBhD5ILikNlA1qto.jpg" RenderTransformOrigin="0.75,-0.129">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="1.087" Y="65.587"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+
+    </Grid>
+</Window>
