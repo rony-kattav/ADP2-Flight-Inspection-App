@@ -12,16 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ADP2
+namespace ADP2_Flight_Inspection_App
 {
     /// <summary>
     /// Interaction logic for Menu.xaml
     /// </summary>
     public partial class Menu : Window
     {
-        public Menu()
+        private string[] CSVArray;
+        private string XMLPath;
+        public Menu(string[] array , string xmlpath)
         {
+
+            CSVArray = array;
+            XMLPath = xmlpath;
             InitializeComponent();
+
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -34,19 +40,23 @@ namespace ADP2
         {
             if (mediaPlayer.IsChecked == true)
             {
-                var mediaControlForm = new MediaPlayer();
+                var vmmediaControl = new MediaPlayerViewModel(new MediaPlayerModel(CSVArray));
+                var mediaControlForm = new MediaPlayerView(vmmediaControl);
                 mediaControlForm.Show();
+                vmmediaControl.startModel();
+
             }
             if (graphs.IsChecked == true)
             {
-                var graphForm = new ExampleWin();
-                graphForm.Show();
+                //var graphForm = new ExampleWin();
+                //graphForm.Show();
             }
             if (navigatorControls.IsChecked == true)
             {
-                var navigatorControlForm = new Wheel();
-                navigatorControlForm.Show();
+                //var navigatorControlForm = new Wheel();
+                //navigatorControlForm.Show();
             }
+            this.Close();
         }
     }
 }

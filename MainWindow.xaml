@@ -14,11 +14,10 @@
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBox Grid.ColumnSpan="5" HorizontalAlignment="Left" Height="44" TextWrapping="Wrap" Text="{Binding VM_csv}" VerticalAlignment="Top" Width="271" Margin="77,128,0,0" TextChanged="TextBox_TextChanged" FontSize="30" Name="csvText" />
-        <TextBox x:Name="xmlText" Grid.ColumnSpan="5" HorizontalAlignment="Left" Height="44" TextWrapping="Wrap" Text="{Binding VM_xml}" VerticalAlignment="Top" Width="279" RenderTransformOrigin="4.376,7.217" Margin="77,216,0,0" FontSize="30" TextChanged="TextBox_TextChanged_1"/>
+        <TextBox Grid.ColumnSpan="5" HorizontalAlignment="Left" Height="44" TextWrapping="Wrap" Text="Enter CSV path" VerticalAlignment="Top" Width="271" Margin="77,128,0,0" TextChanged="CsvBox_TextChanged" FontSize="30" Name="csvText" />
+        <TextBox x:Name="xmlText" Grid.ColumnSpan="5" HorizontalAlignment="Left" Height="44" TextWrapping="Wrap" Text="Enter XML path" VerticalAlignment="Top" Width="279" RenderTransformOrigin="4.376,7.217" Margin="77,216,0,0" FontSize="30" TextChanged="XmlBox_TextChanged"/>
         <Button x:Name="Apply" Grid.ColumnSpan="5" Content="Apply" HorizontalAlignment="Left" Height="66" Margin="281,307,0,0" VerticalAlignment="Top" Width="219" FontSize="30" Background="#FFF1C1F5" Click="Apply_Click"/>
         <Label Grid.ColumnSpan="5" Content="Please enter the file paths" HorizontalAlignment="Left" VerticalAlignment="Top" Width="356" Margin="192,25,0,0" FontSize="30"/>
-        <Button Grid.ColumnSpan="5" Content="Button" HorizontalAlignment="Left" Height="88" Margin="500,172,0,0" VerticalAlignment="Top" Width="141" Click="Button_Click"/>
 
     </Grid>
 </Window>

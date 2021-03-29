@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,37 +21,47 @@ namespace ADP2_Flight_Inspection_App
     /// </summary>
     public partial class MainWindow : Window
     {
-        ADP2ViewModel vm;
         bool csvchanged = false;
         bool xmlchanged = false;
+
 
         public MainWindow()
         {
             InitializeComponent();
-            vm = new MediaPlayerViewModel(new MediaPlayerModel());
+            //vm = new MediaPlayerViewModel(new MediaPlayerModel());
             //DataContext = vm;
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void CsvBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             csvchanged = true;
         }
 
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        private void XmlBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             xmlchanged = true;
         }
 
         private void Apply_Click(object sender, RoutedEventArgs e)
         {
-           // vm.modelStart();
-        }
+          
+            List<string> l = new List<string>();
+            // read the CSV into array 
+            var reader = new StreamReader(csvText.Text);
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                l.Add(line);
+            }
+            reader.Close();
+            string[] dataArray = l.ToArray();
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MediaPlayerView mp = new MediaPlayerView();
-            mp.Show();
+
+            Menu men = new Menu(dataArray, xmlText.Text);
+            men.Show();
             this.Close();
         }
+
+
     }
 }

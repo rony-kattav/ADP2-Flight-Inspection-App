@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ADP2_Flight_Inspection_App
 {
-    class MediaPlayerViewModel
+    public class MediaPlayerViewModel
     {
         private IADP2Model model;
         private bool VM_play;
@@ -41,32 +42,56 @@ namespace ADP2_Flight_Inspection_App
         {
             get {
                 return model.Time;
-                //return time;
             }
-            set { 
-                //time = value;
+            set {
+
                 model.Time = value;
+
             }
         }
         public double VM_Speed
         {
             get {
                 return model.Speed;
-                //return speed;
             }
-            set { 
-                //speed = value;
+            set {
                 model.Speed = value;
             }        
+        }
+
+        public int numOfRows
+        {
+            get { return model.numOfRows; }
         }
 
 
         public MediaPlayerViewModel(IADP2Model m)
         {
             model = m;
-            //time = 0;
-            //speed = 1;
+            model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e) {
+                NotifyPropertyChanged("VM_" + e.PropertyName);
+            };
 
+
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+        private void NotifyPropertyChanged(string propName)
+        {
+            if (String.Compare(propName, "VM_Time") == 0)
+            {
+                if (this.PropertyChanged != null)
+                {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+                }
+            }
+        }
+
+        public void startModel()
+        {
+            model.start();
         }
 
 

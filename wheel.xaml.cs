@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Prog2
+namespace ADP2_Flight_Inspection_App
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class wheel : Window
     {
-        public MainWindow()
+        public wheel()
         {
             InitializeComponent();
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,11 +22,27 @@ namespace ADP2_Flight_Inspection_App
     {
         private MediaPlayerViewModel vm;
 
-        public MediaPlayerView()
+        public MediaPlayerView(MediaPlayerViewModel viewmodel)
         {
+            vm = viewmodel;
             InitializeComponent();
-            //vm = new MediaPlayerViewModel(new IADP2myModel());
-            //DataContext = vm;
+            vm = viewmodel;
+            vm.PropertyChanged+= delegate (Object sender, PropertyChangedEventArgs e) {
+                NotifyPropertyChanged(e.PropertyName);
+            };
+            DataContext = vm;
+            timeSlider.Maximum = (int)vm.numOfRows;
+            
+        }
+
+        private void NotifyPropertyChanged(string propName) 
+        {
+            /*
+            if (String.Compare(propName, "VM_Time") == 0)
+            {
+                timeSlider.Value = vm.VM_Time;
+            }
+            */
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

@@ -11,7 +11,7 @@ namespace ADP2_Flight_Inspection_App
     {
         double Speed { set; get; }
         int Time { set; get; }
-
+        int numOfRows { get; }
 
         //void updateProperties(string c, string x);
 

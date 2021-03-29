@@ -29,11 +29,16 @@ namespace ADP2_Flight_Inspection_App
             }
         }
 
-        private float[][] dataArray;
+        public int numOfRows
+        {
+            get { return dataArray.Length; }
+        }
+
+        private string[] dataArray;
         private bool isStop;
 
 
-        public MediaPlayerModel(float[][] array)
+        public MediaPlayerModel(string[] array)
         {
             isStop = false;
             Speed = 1;
@@ -58,10 +63,10 @@ namespace ADP2_Flight_Inspection_App
         {
             new Thread(delegate ()
             {
-                while (!isStop)
-                {
-                    time++;
-                    Thread.Sleep((int)(speed * 100));
+                int length = dataArray.Length;
+                for(int i=0; i< length; i++) { 
+                    Time++;
+                    Thread.Sleep((int)( 10 / speed));
                 }
 
             }).Start();
@@ -70,7 +75,7 @@ namespace ADP2_Flight_Inspection_App
 
         public void stop()
         {
-            isStop = true;
+            //isStop = true;
 
         }
     }

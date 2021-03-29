@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ADP2_Flight_Inspection_App"
         mc:Ignorable="d"
-        Title="Window1" Height="158" Width="786">
+        Title="Media Player" Height="158" Width="786">
     <Grid Margin="-2,2,2.333,-1.333" Height="128" VerticalAlignment="Top">
         <Grid.Background>
             <ImageBrush ImageSource="https://cdn1.iconfinder.com/data/icons/web-mobile-ui-interface/90/video_stop-01-512.png"/>
@@ -17,7 +17,7 @@
             <ColumnDefinition Width="130*"/>
         </Grid.ColumnDefinitions>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="127" VerticalAlignment="Top" Width="792" Background="#F7AEAEAE" Grid.ColumnSpan="4" Margin="0,0,-12.667,0">
-            <Slider Margin="56.667,73.667,50,29.333" ValueChanged="Slider_ValueChanged" TickPlacement="TopLeft" TickFrequency="0.5" Value="{Binding VM_Time}"  />
+            <Slider Name="timeSlider" Margin="56.667,73.667,50,29.333" ValueChanged="Slider_ValueChanged" TickPlacement="TopLeft" TickFrequency="0.5" Value="{Binding VM_Time}"  />
         </Border>
         <TextBox HorizontalAlignment="Left" Height="38" TextWrapping="Wrap" Text="Play speed" VerticalAlignment="Top" Width="110" Margin="347.333,17,0,0" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="20" IsReadOnly="True" SelectionBrush="{x:Null}" Grid.Column="2"/>
         <ComboBox Name="speedBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="457.333,17,0,0" Height="38" SelectionChanged="ComboBox_SelectionChanged" Grid.ColumnSpan="2" FontSize="20"  SelectedValue="x 1"  Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="2" >
