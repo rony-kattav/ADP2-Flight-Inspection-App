@@ -1,0 +1,30 @@
+﻿<Window x:Class="ADP2.Menu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ADP2"
+        mc:Ignorable="d"
+        Title="Menu" Height="450" Width="800">
+	<Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="https://blog.tortugabackpacks.com/wp-content/uploads/2019/08/Airplane_2500.jpg"/>
+        </Grid.Background>
+        <StackPanel Margin="10,10,390.333,9.667">
+			<Label FontWeight="Bold" FontSize="30" FontStyle="Italic" Foreground="BlueViolet">Flight Information Options</Label>
+			<CheckBox Name="mediaPlayer" Margin="30" Checked="CheckBox_Checked" >
+				<TextBlock FontSize="25" FontStyle="Italic"> Media Control</TextBlock>
+			</CheckBox>
+			<CheckBox Name="graphs" Margin="30" >
+				<TextBlock FontSize="25" FontStyle="Italic"> graphs</TextBlock>
+			</CheckBox>
+			<CheckBox Name="navigatorControls" Margin="30" >
+				<TextBlock FontSize="25" FontStyle="Italic"> navigator controls</TextBlock>
+			</CheckBox>
+			<Button Height="36" Margin="90,10,150.333,0" Foreground="DarkMagenta" Background="LightPink" FontWeight="ExtraBold" Click="Button_Click">
+				<TextBlock><Run Text="Apply"/></TextBlock>
+			</Button>
+		</StackPanel>
+
+	</Grid>
+</Window>
