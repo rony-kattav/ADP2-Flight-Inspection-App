@@ -34,7 +34,7 @@ namespace ADP2
         {
             if (mediaPlayer.IsChecked == true)
             {
-                var mediaControlForm = new ExampleWin();
+                var mediaControlForm = new MediaPlayer();
                 mediaControlForm.Show();
             }
             if (graphs.IsChecked == true)
@@ -44,7 +44,7 @@ namespace ADP2
             }
             if (navigatorControls.IsChecked == true)
             {
-                var navigatorControlForm = new ExampleWin();
+                var navigatorControlForm = new Wheel();
                 navigatorControlForm.Show();
             }
         }
