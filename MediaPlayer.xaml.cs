@@ -37,12 +37,13 @@ namespace ADP2_Flight_Inspection_App
 
         private void NotifyPropertyChanged(string propName) 
         {
-            /*
+
             if (String.Compare(propName, "VM_Time") == 0)
             {
-                timeSlider.Value = vm.VM_Time;
-            }
-            */
+                this.Dispatcher.Invoke(()=>
+                    timeSlider.Value = (int)vm.VM_Time);
+            }    
+            
         }
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

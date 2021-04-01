@@ -27,6 +27,8 @@ namespace ADP2_Flight_Inspection_App
             CSVArray = array;
             XMLPath = xmlpath;
             InitializeComponent();
+            ADP2myModel fgmodel = new ADP2myModel();
+            //fgmodel.connect();
 
         }
 

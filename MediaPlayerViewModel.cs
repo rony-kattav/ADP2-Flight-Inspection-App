@@ -44,9 +44,11 @@ namespace ADP2_Flight_Inspection_App
                 return model.Time;
             }
             set {
+                if(model.Time != value)
+                {
+                    model.Time = value;
 
-                model.Time = value;
-
+                }
             }
         }
         public double VM_Speed

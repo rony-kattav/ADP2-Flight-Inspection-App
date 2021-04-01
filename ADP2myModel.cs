@@ -8,6 +8,8 @@ using System.IO;
 using System.Net;
 using System.Xml;
 using System.Threading;
+using System.Diagnostics;
+
 
 namespace ADP2_Flight_Inspection_App
 {
@@ -43,6 +45,32 @@ namespace ADP2_Flight_Inspection_App
             CSV = c;
             XML = x;
         }
+        
+
+        public void connect()
+        {
+
+            // Prepare the process to run
+            ProcessStartInfo start = new ProcessStartInfo();
+            // Enter in the command line arguments, everything you would enter after the executable name itself
+            start.Arguments = null;
+            // Enter the executable to run, including the complete path
+            start.FileName = "C:\\Program Files\\FlightGear 2020.3.6\\";
+            // Do you want to show a console window?
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.CreateNoWindow = true;
+            int exitCode;
+
+
+            // Run the external process & wait for it to finish
+            using (Process proc = Process.Start(start))
+            {
+                //proc.WaitForExit();
+
+                // Retrieve the app's exit code
+                //exitCode = proc.ExitCode;
+            }
+        }
 
         // copy the xml file from the given path to the flightgear folder
         private void copyXMLToFG()
@@ -63,6 +91,8 @@ namespace ADP2_Flight_Inspection_App
             */
             
         }
+
+        
 
         public void start()
         {

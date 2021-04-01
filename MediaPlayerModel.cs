@@ -34,7 +34,7 @@ namespace ADP2_Flight_Inspection_App
             get { return dataArray.Length; }
         }
 
-        private string[] dataArray;
+        public string[] dataArray;
         private bool isStop;
 
 
@@ -56,7 +56,10 @@ namespace ADP2_Flight_Inspection_App
             }
         }
 
+        public void connect()
+        {
 
+        }
 
 
         public void start()
@@ -64,7 +67,7 @@ namespace ADP2_Flight_Inspection_App
             new Thread(delegate ()
             {
                 int length = dataArray.Length;
-                for(int i=0; i< length; i++) { 
+                while(time!= length) { 
                     Time++;
                     Thread.Sleep((int)( 10 / speed));
                 }

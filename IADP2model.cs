@@ -13,7 +13,8 @@ namespace ADP2_Flight_Inspection_App
         int Time { set; get; }
         int numOfRows { get; }
 
-        //void updateProperties(string c, string x);
+
+        void connect();
 
         void start();
 
