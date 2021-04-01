@@ -20,8 +20,10 @@ namespace ADP2_Flight_Inspection_App
     /// </summary>
     public partial class wheel : Window
     {
-        public wheel()
+        private WheelViewModel vm;
+        public wheel(WheelViewModel viewmodel)
         {
+            vm = viewmodel;
             InitializeComponent();
         }
 
