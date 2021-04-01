@@ -7,39 +7,42 @@ using System.Threading.Tasks;
 
 namespace ADP2_Flight_Inspection_App
 {
-    class WheelViewModel
+    public class WheelViewModel
     {
 
-        private IADP2Model model;
+        private WheelModel model;
 
-        public int VM_Time
-        {
-            get
-            {
-                return model.Time;
-            }
-            set
-            {
-                if (model.Time != value)
-                {
-                    model.Time = value;
 
-                }
-            }
-        }
-        public double VM_Speed
+        private double aileron;
+        public double VM_Aileron
         {
-            get
-            {
-                return model.Speed;
-            }
-            set
-            {
-                model.Speed = value;
-            }
+            get { return model.Aileron; }
+
         }
 
-        public WheelViewModel(IADP2Model m)
+        private double elevator;
+        public double VM_Elevator
+        {
+            get { return model.Elevator; }
+
+        }
+
+        private double rudder;
+        public double VM_Rudder
+        {
+            get { return model.Rudder; }
+
+        }
+
+        private double throttle;
+        public double VM_Throttle
+        {
+            get { return model.Throttle; }
+
+        }
+
+
+        public WheelViewModel(WheelModel m)
         {
             model = m;
             model.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e) {
@@ -52,6 +55,9 @@ namespace ADP2_Flight_Inspection_App
         public void NotifyPropertyChanged(string propName)
         {
             // notify view
+
         }
+
+
     }
 }

@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 
 namespace ADP2_Flight_Inspection_App
 {
-    class WheelModel : IADP2Model
+    public class WheelModel : IADP2Model
     {
         private double speed;
         public double Speed
         {
             get { return speed; }
             set {
-                Speed = value;
-                NotifyPropertyChanged("Speed");
+                speed = value;
             }
         }
 
@@ -25,7 +25,6 @@ namespace ADP2_Flight_Inspection_App
         {
             get { return time; }
             set { time = value;
-                NotifyPropertyChanged("Time");
             }
         }
 
@@ -38,14 +37,67 @@ namespace ADP2_Flight_Inspection_App
         // map between the coloumn name in the csv to it's coloumn number
         private Dictionary<string,int> coloumns;
 
+        private double aileron;
+        public double Aileron
+        {
+            get { return aileron; }
+            set
+            {
+                aileron = value;
+                NotifyPropertyChanged("Aileron");
+            }
+        }
 
-        public WheelModel(string[] array, string xml)
+        private double elevator;
+        public double Elevator
+        {
+            get { return elevator; }
+            set
+            {
+                elevator = value ;
+                NotifyPropertyChanged("Elevator");
+            }
+        }
+
+        private double rudder;
+        public double Rudder
+        {
+            get { return rudder; }
+            set
+            {
+                rudder = value; ;
+                NotifyPropertyChanged("Rudder");
+            }
+        }
+
+        private double throttle;
+        public double Throttle
+        {
+            get { return throttle; }
+            set
+            {
+                throttle = value; ;
+                NotifyPropertyChanged("Throttle");
+            }
+        }
+
+        private bool isStop;
+        private Menu notifier;
+
+
+        public WheelModel(string[] array, string xml, Menu men)
         {
             XMLpath = xml;
             dataArray = array;
             numofrows = array.Length;
             speed = 1;
             time = 0;
+            isStop = false;
+            coloumns = new Dictionary<string, int>();
+            notifier = men;
+            notifier.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e) {
+                NotifyPropertyChanged(e.PropertyName);
+            };
         }
 
 
@@ -54,67 +106,57 @@ namespace ADP2_Flight_Inspection_App
 
         private void NotifyPropertyChanged(string propName)
         {
-            if (String.Compare(propName, "Time") == 0)
+            if (String.Compare(propName, "Speed") == 0)
             {
-                if (this.PropertyChanged != null)
-                {
-
-                }
+                Speed = notifier.Speed;
             }
-            else if(String.Compare(propName, "Speed") == 0)
+            else if (String.Compare(propName, "Time") == 0)
             {
-                if (this.PropertyChanged != null)
-                {
-
-                }
+                Time = notifier.Time;
             }
+            
+            else if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+
+            }
+            
         }
 
         private void readXML()
         {
-            /*
+            // counter for the rows on the csv
             int i = 0;
+            // counter for the throttles (according to number of engines)
+            int j = 1;
             using (XmlReader reader = XmlReader.Create(XMLpath)) 
             {
-
-
-                while (reader.Read())
+                while (reader.Read() && String.Compare(reader.Name, "output") != 0)
                 {
-
-                    if (String.Compare(reader.Name, "output") == 0)
-                    {
-
-                        while (reader.Read())
-                        {
-                            switch (reader.Name.ToString())
-                            {
-                                case "Name":
-                                    Console.WriteLine("Name of the Element is : " + reader.ReadString());
-                                    break;
-                                case "Location":
-                                    Console.WriteLine("Your Location is : " + reader.ReadString());
-                                    break;
-                            }
-
-
-                        }
-
-                    }
-                        //return only when you have START tag  
-                        switch (reader.Name.ToString())
-                        {
-                            case "Name":
-                                Console.WriteLine("Name of the Element is : " + reader.ReadString());
-                                break;
-                            case "Location":
-                                Console.WriteLine("Your Location is : " + reader.ReadString());
-                                break;
-                        }
-                    }
-                    Console.WriteLine("");
                 }
+
+                while (reader.Read() && String.Compare(reader.Name, "output")!=0)
+                {
+                                       
+                    if (String.Compare(reader.Name, "name") == 0) 
+                    {
+                        string name = reader.ReadString();
+                        switch (name)
+                        {
+                            case "throttle":
+                                coloumns.Add(name + j, i);
+                                j++;
+                                break;
+                            case "aileron":
+                            case "elevator":
+                            case "rudder":
+                                coloumns.Add(name, i);
+                                break;
+                        }
+                        i++;
+                    }
+                }                  
             }
-            */
         }
 
         public void connect()
@@ -122,14 +164,42 @@ namespace ADP2_Flight_Inspection_App
             readXML();
         }
 
+        private void updateData(string line)
+        {
+            string[] pars = line.Split(',');
+            int index = coloumns["aileron"];
+            Aileron = Double.Parse(pars[index]);
+            index = coloumns["elevator"];
+            Elevator = Double.Parse(pars[index]);
+            index = coloumns["rudder"];
+            Rudder = Double.Parse(pars[index]);
+            int engine = 1;
+            index = coloumns["throttle" + engine];
+            Throttle = Double.Parse(pars[index]);
+        }
+
         public void start()
         {
-            
+            new Thread(delegate ()
+            {
+                int length = dataArray.Length;
+                while (time != length && isStop != true)
+                {
+                    updateData(dataArray[time]);
+                    Time++;
+                    while (speed == 0)
+                    {
+
+                    }
+                    Thread.Sleep((int)(10 / speed));
+                }
+
+            }).Start();
         }
 
         public void stop()
         {
-           
+            isStop = true;
         }
     }
 }

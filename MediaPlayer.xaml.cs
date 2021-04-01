@@ -59,5 +59,19 @@ namespace ADP2_Flight_Inspection_App
             string [] arr = newSpeed.Split(' ');
             vm.VM_Speed = Double.Parse(arr[1]);
         }
+
+        private void play_Click(object sender, RoutedEventArgs e)
+        {
+            vm.VM_Play = true;
+        }
+
+        private void pause_Click(object sender, RoutedEventArgs e)
+        {
+            vm.VM_Pause = true;
+        }
+
+        private void stop_Click(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }

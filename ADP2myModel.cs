@@ -9,58 +9,85 @@ using System.Net;
 using System.Xml;
 using System.Threading;
 using System.Diagnostics;
-
+using System.ComponentModel;
 
 namespace ADP2_Flight_Inspection_App
 {
-    public class ADP2myModel 
+    public class ADP2myModel : IADP2Model
     {
-        private string csv;
-        public string CSV
+
+        private Menu notifier;
+
+        private double speed;
+        public double Speed
         {
-            get { return csv; }
+            get { return speed; }
             set
             {
-                csv = value;
+                speed = value;
             }
-
         }
 
-        private string xml;
-        public string XML
+        private int time;
+        public int Time
         {
-            get { return xml; }
-            set { xml = value; }
+            get { return time; }
+            set
+            {
+                time = value;
+            }
         }
 
-
-        public ADP2myModel()
+        private int numofrows;
+        public int numOfRows
         {
-            CSV = "";
-            XML = "";
+            get { return numofrows; }
         }
 
-        public void updateProperties(string c, string x)
+        private string XMLpath;
+        private string[] dataArray;
+        private bool isStop;
+        private Socket fg;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ADP2myModel(string[] array, string xml, Menu men)
         {
-            CSV = c;
-            XML = x;
+            dataArray = array;
+            XMLpath = xml;
+            speed = 1;
+            time = 0;
+            isStop = false;
+            numofrows = dataArray.Length;
+            notifier = men;
+            notifier.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e) {
+                NotifyPropertyChanged(e.PropertyName);
+            };
+
         }
+
+
         
 
         public void connect()
         {
+            /*
 
-            // Prepare the process to run
+
+            // copy the xml file into the flightgear folder
+            copyXMLToFG();
+            
+
+            // run the FlightGear application
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
             start.Arguments = null;
-            // Enter the executable to run, including the complete path
-            start.FileName = "C:\\Program Files\\FlightGear 2020.3.6\\";
-            // Do you want to show a console window?
+            start.FileName = "C:\\Program Files\\FlightGear 2020.3.6\\bin\\fgfs.exe";
             start.WindowStyle = ProcessWindowStyle.Hidden;
             start.CreateNoWindow = true;
             int exitCode;
 
+            
 
             // Run the external process & wait for it to finish
             using (Process proc = Process.Start(start))
@@ -70,6 +97,22 @@ namespace ADP2_Flight_Inspection_App
                 // Retrieve the app's exit code
                 //exitCode = proc.ExitCode;
             }
+            /*
+
+            // connect to port 5400
+            IPHostEntry ipHost = Dns.GetHostEntry("localhost");
+            IPAddress ipAddr = ipHost.AddressList[1];
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 5400);
+            fg = new Socket(ipAddr.AddressFamily,
+                   SocketType.Stream, ProtocolType.Tcp);
+
+            fg.Connect(localEndPoint);
+
+
+
+            */
+
+
         }
 
         // copy the xml file from the given path to the flightgear folder
@@ -96,29 +139,60 @@ namespace ADP2_Flight_Inspection_App
 
         public void start()
         {
-            copyXMLToFG();
-            IPHostEntry ipHost = Dns.GetHostEntry("localhost");
-            IPAddress ipAddr = ipHost.AddressList[1];
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 5400);
-            Socket fg = new Socket(ipAddr.AddressFamily,
-                   SocketType.Stream, ProtocolType.Tcp);
 
-                fg.Connect(localEndPoint);
-                var writer = new StreamWriter(new NetworkStream(fg));
-                //var reader = new StreamReader(@"C:\Users\User\Desktop\flight\reg_flight.csv");
-                var reader = new StreamReader(CSV);
-                while (!reader.EndOfStream)
+            new Thread(delegate ()
+            {
+                int length = dataArray.Length;
+                while (time != length && isStop != true)
                 {
-                    var line = reader.ReadLine();
-                    writer.WriteLine(line);
-                    Thread.Sleep(100);
+                    Time++;
+                    while (speed == 0)
+                    {
+
+                    }
+                    Thread.Sleep((int)(10 / speed));
                 }
 
-                fg.Close();
-                reader.Close();
-            
+            }).Start();
+            /*
+             
+                var writer = new StreamWriter(new NetworkStream(fg));
+                while (time!= numofrows && isStop == false)
+                {
+                    string line = dataArray[time];
+                    writer.WriteLine(line);
+                    while(speed == 0)
+                    {
 
+                    }
+                    Thread.Sleep((int)(10 / speed));
+                }       
+                */
 
         }
+
+        public void stop()
+        {
+            isStop = true;
+            fg.Close();
+
+        }
+
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            
+            if (String.Compare(propName, "Speed") == 0)
+            {
+                speed = notifier.Speed;
+            }
+            else if (String.Compare(propName, "Time") == 0)
+            {
+                time = notifier.Time;
+            }
+            
+            
+        }
+
     }
 }

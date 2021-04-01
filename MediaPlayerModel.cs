@@ -68,7 +68,14 @@ namespace ADP2_Flight_Inspection_App
             {
                 int length = dataArray.Length;
                 while(time!= length) { 
-                    Time++;
+                    time++;
+                    // notifies only when the time changes because the time passed
+                    // and not because someone changed it manually by the media player
+                    NotifyPropertyChanged("TimePassed");
+                    while(speed == 0)
+                    {
+
+                    }
                     Thread.Sleep((int)( 10 / speed));
                 }
 

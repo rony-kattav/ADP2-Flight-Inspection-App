@@ -19,6 +19,7 @@ namespace ADP2_Flight_Inspection_App
                 if (value)
                 {
                     VM_Speed = lastSpeed;
+                    VM_play = false;
                 }
             }
         }
@@ -33,6 +34,7 @@ namespace ADP2_Flight_Inspection_App
                 {
                     lastSpeed = VM_Speed;
                     VM_Speed = 0;
+                    VM_pause = false;
                 }
             }
         }
@@ -82,11 +84,12 @@ namespace ADP2_Flight_Inspection_App
 
         private void NotifyPropertyChanged(string propName)
         {
-            if (String.Compare(propName, "VM_Time") == 0)
+            // if the time in the model changed
+            if (String.Compare(propName, "VM_TimePassed") == 0)
             {
                 if (this.PropertyChanged != null)
                 {
-                    this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+                    this.PropertyChanged(this, new PropertyChangedEventArgs("VM_Time"));
                 }
             }
         }
