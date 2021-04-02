@@ -76,7 +76,7 @@ namespace ADP2_Flight_Inspection_App
                     {
 
                     }
-                    Thread.Sleep((int)( 10 / speed));
+                    Thread.Sleep((int)( 100 / speed));
                 }
 
             }).Start();
