@@ -7,29 +7,23 @@
         xmlns:local="clr-namespace:ADP2_Flight_Inspection_App"
         mc:Ignorable="d"
         Title="Graphs" Height="450" Width="800">
-    <Window.DataContext>
-        <local:GraphsViewModel/>
-    </Window.DataContext>
+
     <Grid>
-        <ListBox HorizontalAlignment="Left" Height="401" VerticalAlignment="Top" Width="235" Margin="0,10,0,0">
-            <ListBoxItem Height="80" FontSize="20" FontStyle="Italic" Foreground="DarkMagenta" Selected="ListBoxItem_Selected">attitude_pitch_deg</ListBoxItem>
-            <ListBoxItem Height="80" FontSize="20" FontStyle="Italic" Foreground="DarkMagenta" Selected="ListBoxItem_Selected">attitude_roll_deg</ListBoxItem>
-            <ListBoxItem Height="80" FontSize="20" FontStyle="Italic" Foreground="DarkMagenta">attitudel_pitch_deg</ListBoxItem>
-            <ListBoxItem Height="80" FontSize="20" FontStyle="Italic" Foreground="DarkMagenta">attitudel_roll_deg</ListBoxItem>
-            <ListBoxItem Height="80" FontSize="20" FontStyle="Italic" Foreground="DarkMagenta">gps_attitude</ListBoxItem>
+        <ListBox Name="listBox" HorizontalAlignment="Left" Height="401" VerticalAlignment="Top" Width="235" Margin="0,10,0,0" SelectionChanged="ListBox_selectionChanged">
 
         </ListBox>
-        <oxy:PlotView HorizontalAlignment="Right" Height="201" VerticalAlignment="Top" Width="276" Margin="0,10,0.333,0" >
+        <oxy:PlotView Name="measure" HorizontalAlignment="Right" Height="201" VerticalAlignment="Top" Width="276" Margin="0,10,0.333,0" >
             <oxy:PlotView.Model >
                 <Binding Path="MyModel" />
             </oxy:PlotView.Model>
         </oxy:PlotView>
-        
-        <oxy:PlotView HorizontalAlignment="Right" Height="201" VerticalAlignment="Top" Width="276" Margin="0,10,277.333,0">
+
+        <oxy:PlotView Name="corMeasure" HorizontalAlignment="Right" Height="201" VerticalAlignment="Top" Width="276" Margin="0,10,277.333,0">
             <oxy:PlotView.Model >
                 <Binding Path="corModel" />
             </oxy:PlotView.Model>
         </oxy:PlotView>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="421,271,0,0" VerticalAlignment="Top" Width="130" Height="59" Click="Button_Click"/>
 
 
     </Grid>

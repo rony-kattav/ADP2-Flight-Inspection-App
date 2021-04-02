@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace ADP2_Flight_Inspection_App
 {
-    class GraphsModel : IADP2Model
+    public class GraphsModel : IADP2Model
     {
         private double speed;
         public double Speed
@@ -106,7 +106,7 @@ namespace ADP2_Flight_Inspection_App
                         int k = 1;
                         while (coloumns.ContainsKey(name))
                         {
-                            if(Char.IsDigit(name[name.Length - 1]))
+                            if (Char.IsDigit(name[name.Length - 1]))
                             {
                                 name.Remove(name.Length - 1, 1);
                             }
@@ -124,6 +124,22 @@ namespace ADP2_Flight_Inspection_App
         public void connect()
         {
             readXML();
+            for (int i = 0; i< coloumns.Count; i++)
+            {
+                Console.WriteLine("the key is: "+coloumns.ElementAt(i).Key+" the value is: "+ coloumns.ElementAt(i).Value+"\n");
+            }
+           
+        }
+
+        public List<string> getColoumnsNames()
+        {
+            readXML();
+            List<string> names = new List<string>();
+            for(int i=0; i<coloumns.Count; i++)
+            {
+                names.Add(coloumns.ElementAt(i).Key);
+            }
+            return names;
         }
 
 
