@@ -99,6 +99,8 @@ namespace ADP2_Flight_Inspection_App
             }
             if (graphs.IsChecked == true)
             {
+                var grapgmodel = new GraphsModel(CSVArray, XMLPath, this);
+                models.Add(grapgmodel);
                 //var graphForm = new ExampleWin();
                 //graphForm.Show();
             }

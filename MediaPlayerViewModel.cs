@@ -15,12 +15,16 @@ namespace ADP2_Flight_Inspection_App
         {
             set
             {
-                VM_play = value;
-                if (value)
+                if(VM_play != value)
                 {
-                    VM_Speed = lastSpeed;
-                    VM_play = false;
+                    VM_play = value;
+                    if (value)
+                    {
+                        VM_Speed = lastSpeed;
+                        VM_Pause = false;
+                    }
                 }
+
             }
         }
         private double lastSpeed;
@@ -29,13 +33,17 @@ namespace ADP2_Flight_Inspection_App
         {
             set
             {
-                VM_pause = value;
-                if (value)
+                if(VM_pause != value)
                 {
-                    lastSpeed = VM_Speed;
-                    VM_Speed = 0;
-                    VM_pause = false;
+                    VM_pause = value;
+                    if (value)
+                    {
+                        lastSpeed = VM_Speed;
+                        VM_Speed = 0;
+                        VM_Play = false;
+                    }
                 }
+
             }
         }
         private bool VM_stop;

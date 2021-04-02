@@ -19,6 +19,8 @@
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="127" VerticalAlignment="Top" Width="792" Background="#F7AEAEAE" Grid.ColumnSpan="4" Margin="0,0,-12.667,0">
             <Slider Name="timeSlider" Margin="56.667,73.667,50,29.333" ValueChanged="Slider_ValueChanged" TickPlacement="TopLeft" TickFrequency="50" Value="{Binding VM_Time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
         </Border>
+        <TextBox Name="timePresentor" HorizontalAlignment="Left" Height="38" TextWrapping="Wrap" Text="00:00" VerticalAlignment="Top" Width="64" Margin="30.667,17,0,0" Background="White" BorderBrush="{x:Null}" FontSize="20" IsReadOnly="True" SelectionBrush="{x:Null}" Grid.Column="3"/>
+
         <TextBox HorizontalAlignment="Left" Height="38" TextWrapping="Wrap" Text="Play speed" VerticalAlignment="Top" Width="110" Margin="347.333,17,0,0" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="20" IsReadOnly="True" SelectionBrush="{x:Null}" Grid.Column="2"/>
         <ComboBox Name="speedBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="457.333,17,0,0" Height="38" SelectionChanged="ComboBox_SelectionChanged" Grid.ColumnSpan="2" FontSize="20"  SelectedValue="x 1"  Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="2" >
             <ComboBoxItem Content="x 1"></ComboBoxItem>

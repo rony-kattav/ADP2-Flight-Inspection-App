@@ -128,7 +128,6 @@ namespace ADP2_Flight_Inspection_App
             // counter for the rows on the csv
             int i = 0;
             // counter for the throttles (according to number of engines)
-            int j = 1;
             using (XmlReader reader = XmlReader.Create(XMLpath)) 
             {
                 while (reader.Read() && String.Compare(reader.Name, "output") != 0)
@@ -144,14 +143,25 @@ namespace ADP2_Flight_Inspection_App
                         switch (name)
                         {
                             case "throttle":
-                                coloumns.Add(name + j, i);
-                                j++;
-                                break;
                             case "aileron":
                             case "elevator":
                             case "rudder":
+                                // if there is the same name but for different engines,
+                                //the first one will be as it's written but the nexts will be with numbers.
+                                // for example - if there are 2 throttles - the first one will be "throttle" and the next "throttle1"
+                                int k = 1;
+                                while (coloumns.ContainsKey(name))
+                                {
+                                    if (Char.IsDigit(name[name.Length - 1]))
+                                    {
+                                        name.Remove(name.Length - 1, 1);
+                                    }
+                                    name += k;
+                                    k++;
+                                }
                                 coloumns.Add(name, i);
                                 break;
+                                
                         }
                         i++;
                     }
@@ -173,8 +183,7 @@ namespace ADP2_Flight_Inspection_App
             Elevator = Double.Parse(pars[index]);
             index = coloumns["rudder"];
             Rudder = Double.Parse(pars[index]);
-            int engine = 1;
-            index = coloumns["throttle" + engine];
+            index = coloumns["throttle"];
             Throttle = Double.Parse(pars[index]);
         }
 

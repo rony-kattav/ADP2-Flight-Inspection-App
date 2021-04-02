@@ -40,8 +40,17 @@ namespace ADP2_Flight_Inspection_App
 
             if (String.Compare(propName, "VM_Time") == 0)
             {
-                this.Dispatcher.Invoke(()=>
-                    timeSlider.Value = (int)vm.VM_Time);
+                int t = vm.VM_Time;
+                this.Dispatcher.Invoke(() =>
+                {
+                    timeSlider.Value = t;
+                    string minutes = ((t / 100) / 60).ToString();
+                    minutes = minutes.PadLeft(2, '0');
+                    string seconds = ((t / 100) % 60).ToString();
+                    seconds = seconds.PadLeft(2, '0');
+                    timePresentor.Text = minutes + ":" + seconds;
+                });
+
             }    
             
         }
