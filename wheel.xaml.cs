@@ -23,12 +23,13 @@ namespace ADP2_Flight_Inspection_App
     public partial class wheel : Window
     {
         private WheelViewModel vm;
-
+        /*
         public Thickness View_margin
         {
             get { return center_circle.Margin; }
             set { center_circle.Margin = value; }
         }
+        */
 
         public wheel(WheelViewModel viewmodel)
         {
@@ -63,7 +64,22 @@ namespace ADP2_Flight_Inspection_App
                 double e = vm.VM_Elevator;
                 this.Dispatcher.Invoke(() =>
                 {
+                    int radius = 26;
+                    //Canvas.SetTop(circle, radius * e * 10);
+                    
+                    Canvas canvas = new Canvas();
+                    Ellipse el = center_circle;
+                    //el.Fill = new SolidColorBrush(Colors.Orange);
+                    //el.Width = 52;
+                    //el.Height = 52;
+                    Canvas.SetTop(canvas, radius * e * 10);
+                    canvas.Children.Add(el);
+                    
+
                     //Thickness margin = center_circle.Margin;
+                    //double temp = 153 + (e * 70);
+                    //center_circle.Margin = new Thickness(center_circle.Margin.Left, temp, 0, 0);
+                    //margin.Top += (e * 10);
                     //View_margin.Top += (e*100);
                 });
             }
@@ -72,7 +88,21 @@ namespace ADP2_Flight_Inspection_App
                 double a = vm.VM_Aileron;
                 this.Dispatcher.Invoke(() =>
                 {
+                    int radius = 26;
+                    //Canvas.SetLeft(circle, radius * a * 10);
+                    
+                    Canvas canvas = new Canvas();
+                    Ellipse el = center_circle;
+                    //el.Fill = new SolidColorBrush(Colors.Orange);
+                    //el.Width = 52;
+                    //el.Height = 52;
+                    Canvas.SetLeft(canvas, radius * a * 10);
+                    canvas.Children.Add(el);
+                    
                     //Thickness margin = center_circle.Margin;
+                    //double temp = 366 + (a * 70);
+                    //center_circle.Margin = new Thickness(temp, center_circle.Margin.Top, 0, 0);
+                    //margin.Left += (a * 10);
                     //margin.Left += (a*100);
                 });
             }

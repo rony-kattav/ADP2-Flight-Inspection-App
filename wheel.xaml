@@ -6,18 +6,18 @@
         xmlns:local="clr-namespace:ADP2_Flight_Inspection_App"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid RenderTransformOrigin="0.495,0.441">
+    <Grid RenderTransformOrigin="0.495,0.441" Background="#FFEAC7EE">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Slider x:Name="rudder_slider" HorizontalAlignment="Left" Height="45" Margin="152,365,0,0" VerticalAlignment="Top" Width="480" Value="{Binding VM_Rudder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Slider x:Name="throttle_slider" HorizontalAlignment="Left" Height="45" Margin="152,320,0,0" VerticalAlignment="Top" Width="480" Maximum="1" Minimum="0" Value="{Binding VM_Trottle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock HorizontalAlignment="Left" Height="45" Margin="10,293,0,0" TextWrapping="Wrap" Text="   throttle" VerticalAlignment="Top" Width="120" FontSize="25" FontFamily="Segoe UI Semibold" Foreground="#FFA865EE" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-        <TextBlock HorizontalAlignment="Left" Height="45" Margin="10,354,0,0" TextWrapping="Wrap" Text="   rudder" VerticalAlignment="Top" Width="120" FontSize="25" FontFamily="Segoe UI Semibold" Foreground="#FFA855F1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-        <Ellipse Fill="White" HorizontalAlignment="Left" Height="247" Margin="272,55,0,0" VerticalAlignment="Top" Width="246" RenderTransformOrigin="10,254" Stroke="Black"/>
-        <Ellipse Fill="#FFDFBCF3" HorizontalAlignment="Left" Height="141" Margin="325,108,0,0" Stroke="Black" VerticalAlignment="Top" Width="135" RenderTransformOrigin="0.492,0.483"/>
+        <Slider x:Name="throttle_slider" HorizontalAlignment="Left" Height="45" Margin="152,320,0,0" VerticalAlignment="Top" Width="480" Maximum="1" Minimum="0" Value="{Binding VM_Trottle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}"/>
+        <TextBlock HorizontalAlignment="Left" Height="45" Margin="10,293,0,0" TextWrapping="Wrap" Text="   throttle" VerticalAlignment="Top" Width="120" FontSize="25" FontFamily="Segoe UI Semibold" Foreground="#FFA865EE" Background="#FFEAC7EE"/>
+        <TextBlock HorizontalAlignment="Left" Height="45" Margin="10,354,0,0" TextWrapping="Wrap" Text="   rudder" VerticalAlignment="Top" Width="120" FontSize="25" FontFamily="Segoe UI Semibold" Foreground="#FFA855F1" Background="#FFEAC7EE"/>
+        <Ellipse Fill="White" HorizontalAlignment="Left" Height="246" Margin="272,55,0,0" VerticalAlignment="Top" Width="246" RenderTransformOrigin="10,254" Stroke="Black"/>
+        <Ellipse Fill="#FFDFBCF3" HorizontalAlignment="Left" Height="142" Margin="324,107,0,0" Stroke="Black" VerticalAlignment="Top" Width="142" RenderTransformOrigin="0.492,0.483"/>
         <Image HorizontalAlignment="Left" Height="42" Margin="377,66,0,0" VerticalAlignment="Top" Width="40" Source="http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/triangle-with-rounded-corners.png" RenderTransformOrigin="0.474,0.496" OpacityMask="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>
-        <Image HorizontalAlignment="Left" Height="42" Margin="467,159,0,0" VerticalAlignment="Top" Width="40" Source="http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/triangle-with-rounded-corners.png" RenderTransformOrigin="0.474,0.496" OpacityMask="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+        <Image HorizontalAlignment="Left" Height="42" Margin="473,157,0,0" VerticalAlignment="Top" Width="40" Source="http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/triangle-with-rounded-corners.png" RenderTransformOrigin="0.474,0.496" OpacityMask="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -37,16 +37,18 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        
-        <Ellipse x:Name="center_circle" HorizontalAlignment="Left" Height="52" Margin="366,153,0,0" Stroke="Black" VerticalAlignment="Top" Width="51" RenderTransformOrigin="0.5,0.5" >
-            <Ellipse.Fill>
-                <RadialGradientBrush>
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
-                    <GradientStop Color="#FECA83F3" Offset="0.967"/>
-                </RadialGradientBrush>
-            </Ellipse.Fill>
-        </Ellipse>
+
+        <Canvas x:Name="circle">
+            <Ellipse x:Name="center_circle" HorizontalAlignment="Left" Height="52" Margin="370,152,0,0" Stroke="Black" VerticalAlignment="Top" Width="52" Canvas.Top="{Binding VM_Elevator, UpdateSourceTrigger=PropertyChanged}" Canvas.Left="{Binding VM_Aileron, UpdateSourceTrigger=PropertyChanged}" RenderTransformOrigin="0.5,0.5">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="Black" Offset="1"/>
+                        <GradientStop Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}"/>
+                        <GradientStop Color="#FECA83F3" Offset="0.967"/>
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+        </Canvas>
         <Image HorizontalAlignment="Left" Height="42" Margin="280,157,0,0" VerticalAlignment="Top" Width="40" Source="http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/triangle-with-rounded-corners.png" RenderTransformOrigin="0.802,0.515" OpacityMask="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
             <Image.RenderTransform>
                 <TransformGroup>
@@ -57,7 +59,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image HorizontalAlignment="Left" Height="53" Margin="557,179,0,0" VerticalAlignment="Top" Width="129" Source="https://t3.ftcdn.net/jpg/03/16/76/42/360_F_316764217_xntjAQik2CVBIUQFgBhD5ILikNlA1qto.jpg" RenderTransformOrigin="0.75,-0.129">
+        <Image HorizontalAlignment="Left" Height="53" Margin="557,179,0,0" VerticalAlignment="Top" Width="129" Source="https://cdn1.iconfinder.com/data/icons/lucid-arrows-and-directions/24/Arrow_expand_double_sided_two_way_direction-512.png" RenderTransformOrigin="0.75,-0.129" SnapsToDevicePixels="True">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -67,7 +69,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <TextBlock HorizontalAlignment="Left" Height="45" Margin="503,120,0,0" TextWrapping="Wrap" Text="  Elevator" VerticalAlignment="Top" Width="120" FontSize="25" FontFamily="Segoe UI Semibold" Foreground="#FFA865EE" Background="White" RenderTransformOrigin="0.5,0.5">
+        <TextBlock HorizontalAlignment="Left" Height="45" Margin="503,120,0,0" TextWrapping="Wrap" Text="  Elevator" VerticalAlignment="Top" Width="120" FontSize="25" FontFamily="Segoe UI Semibold" Foreground="#FFA865EE" RenderTransformOrigin="0.5,0.5" Background="#FFEAC7EE">
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -77,8 +79,8 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock HorizontalAlignment="Left" Height="45" Margin="340,10,0,0" TextWrapping="Wrap" Text="  Aileron" VerticalAlignment="Top" Width="120" FontSize="25" FontFamily="Segoe UI Semibold" Foreground="#FFA865EE" Background="White"/>
-        <Image HorizontalAlignment="Left" Height="53" Margin="441,-63,0,0" VerticalAlignment="Top" Width="129" Source="https://t3.ftcdn.net/jpg/03/16/76/42/360_F_316764217_xntjAQik2CVBIUQFgBhD5ILikNlA1qto.jpg" RenderTransformOrigin="0.75,-0.129">
+        <TextBlock HorizontalAlignment="Left" Height="45" Margin="340,10,0,0" TextWrapping="Wrap" Text="  Aileron" VerticalAlignment="Top" Width="120" FontSize="25" FontFamily="Segoe UI Semibold" Foreground="#FFA865EE" Background="#FFEAC7EE"/>
+        <Image HorizontalAlignment="Left" Height="53" Margin="447,-62,0,0" VerticalAlignment="Top" Width="129" Source="https://cdn1.iconfinder.com/data/icons/lucid-arrows-and-directions/24/Arrow_expand_double_sided_two_way_direction-512.png" RenderTransformOrigin="0.75,-0.129">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -88,6 +90,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
+        <Image HorizontalAlignment="Left" Height="149" Margin="623,0,-16.4,0" VerticalAlignment="Top" Width="187" Source="https://cdn0.iconfinder.com/data/icons/transport-icons-set-cartoon-style/512/a1238-512.png"/>
 
     </Grid>
 </Window>
