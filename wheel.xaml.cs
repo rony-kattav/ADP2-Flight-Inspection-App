@@ -23,23 +23,18 @@ namespace ADP2_Flight_Inspection_App
     public partial class wheel : Window
     {
         private WheelViewModel vm;
-        /*
-        public Thickness View_margin
-        {
-            get { return center_circle.Margin; }
-            set { center_circle.Margin = value; }
-        }
-        */
 
         public wheel(WheelViewModel viewmodel)
         {
             vm = viewmodel;
             InitializeComponent();
+            DataContext = vm;
             vm.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e) {
                 NotifyPropertyChanged(e.PropertyName);
             };
             
         }
+
 
         private void NotifyPropertyChanged(string propName)
         {
@@ -59,23 +54,20 @@ namespace ADP2_Flight_Inspection_App
                     rudder_slider.Value = r;
                 });
             }
-            if (String.Compare(propName, "VM_Elevator") == 0)
+            if (String.Compare(propName, "VM_Elevator") == 0 || String.Compare(propName, "VM_Aileron") == 0)
             {
-                double e = vm.VM_Elevator;
+                double elevator = vm.VM_Elevator;
+                double aileron = vm.VM_Aileron;
                 this.Dispatcher.Invoke(() =>
                 {
+                    
                     int radius = 26;
-                    //Canvas.SetTop(circle, radius * e * 10);
+                    //ElivatorView = elivator;
+                    //ElivatorView = radius * elivator * 10;
+                   
+                    Canvas.SetLeft(center_circle, radius * aileron * 3);
+                    Canvas.SetTop(center_circle, radius * elevator * 3);
                     
-                    Canvas canvas = new Canvas();
-                    Ellipse el = center_circle;
-                    //el.Fill = new SolidColorBrush(Colors.Orange);
-                    //el.Width = 52;
-                    //el.Height = 52;
-                    Canvas.SetTop(canvas, radius * e * 10);
-                    canvas.Children.Add(el);
-                    
-
                     //Thickness margin = center_circle.Margin;
                     //double temp = 153 + (e * 70);
                     //center_circle.Margin = new Thickness(center_circle.Margin.Left, temp, 0, 0);
@@ -83,27 +75,58 @@ namespace ADP2_Flight_Inspection_App
                     //View_margin.Top += (e*100);
                 });
             }
-            if (String.Compare(propName, "VM_Aileron") == 0)
+            if (String.Compare(propName, "VM_Altimeter") == 0)
             {
-                double a = vm.VM_Aileron;
+                double altimeter = vm.VM_Altimeter;
                 this.Dispatcher.Invoke(() =>
                 {
-                    int radius = 26;
-                    //Canvas.SetLeft(circle, radius * a * 10);
-                    
-                    Canvas canvas = new Canvas();
-                    Ellipse el = center_circle;
-                    //el.Fill = new SolidColorBrush(Colors.Orange);
-                    //el.Width = 52;
-                    //el.Height = 52;
-                    Canvas.SetLeft(canvas, radius * a * 10);
-                    canvas.Children.Add(el);
-                    
-                    //Thickness margin = center_circle.Margin;
-                    //double temp = 366 + (a * 70);
-                    //center_circle.Margin = new Thickness(temp, center_circle.Margin.Top, 0, 0);
-                    //margin.Left += (a * 10);
-                    //margin.Left += (a*100);
+                    string s = altimeter.ToString();
+                    altimeterText.Text = s;
+                });
+            }
+            if (String.Compare(propName, "VM_AirSpeed") == 0)
+            {
+                double airSpeed = vm.VM_AirSpeed;
+                this.Dispatcher.Invoke(() =>
+                {
+                    string s = airSpeed.ToString();
+                    airSpeedText.Text = s;
+                });
+            }
+            if (String.Compare(propName, "VM_FlightDirection") == 0)
+            {
+                double flightDir = vm.VM_FlightDirection;
+                this.Dispatcher.Invoke(() =>
+                {
+                    string s = flightDir.ToString();
+                    flightDirectionText.Text = s;
+                });
+            }
+            if (String.Compare(propName, "VM_Pitch") == 0)
+            {
+                double pitch = vm.VM_Pitch;
+                this.Dispatcher.Invoke(() =>
+                {
+                    string s = pitch.ToString();
+                    pitchText.Text = s;
+                });
+            }
+            if (String.Compare(propName, "VM_Roll") == 0)
+            {
+                double roll = vm.VM_Roll;
+                this.Dispatcher.Invoke(() =>
+                {
+                    string s = roll.ToString();
+                    rollText.Text = s;
+                });
+            }
+            if (String.Compare(propName, "VM_Way") == 0)
+            {
+                double yaw = vm.VM_Yaw;
+                this.Dispatcher.Invoke(() =>
+                {
+                    string s = yaw.ToString();
+                    yawText.Text = s;
                 });
             }
         }

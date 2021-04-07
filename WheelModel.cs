@@ -81,6 +81,72 @@ namespace ADP2_Flight_Inspection_App
             }
         }
 
+        private double altimeter;
+        public double Altimeter
+        {
+            get { return altimeter; }
+            set
+            {
+                altimeter = value;
+                NotifyPropertyChanged("Altimeter");
+            }
+        }
+
+        private double airSpeed;
+        public double AirSpeed
+        {
+            get { return airSpeed; }
+            set
+            {
+                airSpeed = value;
+                NotifyPropertyChanged("AirSpeed");
+            }
+        }
+
+        private double flightDirection;
+        public double FlightDirection
+        {
+            get { return flightDirection; }
+            set
+            {
+                flightDirection = value;
+                NotifyPropertyChanged("FlightDirection");
+            }
+        }
+
+        private double pitch;
+        public double Pitch
+        {
+            get { return pitch; }
+            set
+            {
+                pitch = value;
+                NotifyPropertyChanged("Pitch");
+            }
+        }
+
+        private double roll;
+        public double Roll
+        {
+            get { return roll; }
+            set
+            {
+                roll = value;
+                NotifyPropertyChanged("Roll");
+            }
+        }
+
+        private double yaw;
+        public double Yaw
+        {
+            get { return yaw; }
+            set
+            {
+                yaw = value;
+                NotifyPropertyChanged("Yaw");
+            }
+        }
+
         private bool isStop;
         private Menu notifier;
 
@@ -99,8 +165,6 @@ namespace ADP2_Flight_Inspection_App
                 NotifyPropertyChanged(e.PropertyName);
             };
         }
-
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -146,6 +210,13 @@ namespace ADP2_Flight_Inspection_App
                             case "aileron":
                             case "elevator":
                             case "rudder":
+                            case "altimeter_indicated-altitude-ft":
+                            case "airspeed-kt":
+                            case "heading-deg":
+                            case "pitch-deg":
+                            case "roll-deg":
+                            // yaw
+                            case "side-slip-deg":
                                 // if there is the same name but for different engines,
                                 //the first one will be as it's written but the nexts will be with numbers.
                                 // for example - if there are 2 throttles - the first one will be "throttle" and the next "throttle1"
@@ -185,6 +256,18 @@ namespace ADP2_Flight_Inspection_App
             Rudder = Double.Parse(pars[index]);
             index = coloumns["throttle"];
             Throttle = Double.Parse(pars[index]);
+            index = coloumns["altimeter_indicated-altitude-ft"];
+            Altimeter = Double.Parse(pars[index]);
+            index = coloumns["airspeed-kt"];
+            AirSpeed = Double.Parse(pars[index]);
+            index = coloumns["heading-deg"];
+            FlightDirection = Double.Parse(pars[index]);
+            index = coloumns["pitch-deg"];
+            Pitch = Double.Parse(pars[index]);
+            index = coloumns["roll-deg"];
+            Roll = Double.Parse(pars[index]);
+            index = coloumns["side-slip-deg"];
+            Yaw = Double.Parse(pars[index]);
         }
 
         public void start()

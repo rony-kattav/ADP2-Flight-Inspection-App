@@ -4,14 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ADP2_Flight_Inspection_App"
+        d:DataContext="{d:DesignInstance Type=local:WheelViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid RenderTransformOrigin="0.495,0.441" Background="#FFEAC7EE">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Slider x:Name="rudder_slider" HorizontalAlignment="Left" Height="45" Margin="152,365,0,0" VerticalAlignment="Top" Width="480" Value="{Binding VM_Rudder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Slider x:Name="throttle_slider" HorizontalAlignment="Left" Height="45" Margin="152,320,0,0" VerticalAlignment="Top" Width="480" Maximum="1" Minimum="0" Value="{Binding VM_Trottle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}"/>
+        <Slider x:Name="rudder_slider" HorizontalAlignment="Left" Height="45" Margin="152,365,0,0" VerticalAlignment="Top" Width="480" Value="{Binding VM_Rudder, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Slider x:Name="throttle_slider" HorizontalAlignment="Left" Height="45" Margin="152,320,0,0" VerticalAlignment="Top" Width="480" Maximum="1" Minimum="0" Value="{Binding VM_Trottle, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Foreground="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}"/>
         <TextBlock HorizontalAlignment="Left" Height="45" Margin="10,293,0,0" TextWrapping="Wrap" Text="   throttle" VerticalAlignment="Top" Width="120" FontSize="25" FontFamily="Segoe UI Semibold" Foreground="#FFA865EE" Background="#FFEAC7EE"/>
         <TextBlock HorizontalAlignment="Left" Height="45" Margin="10,354,0,0" TextWrapping="Wrap" Text="   rudder" VerticalAlignment="Top" Width="120" FontSize="25" FontFamily="Segoe UI Semibold" Foreground="#FFA855F1" Background="#FFEAC7EE"/>
         <Ellipse Fill="White" HorizontalAlignment="Left" Height="246" Margin="272,55,0,0" VerticalAlignment="Top" Width="246" RenderTransformOrigin="10,254" Stroke="Black"/>
@@ -39,7 +40,7 @@
         </Image>
 
         <Canvas x:Name="circle">
-            <Ellipse x:Name="center_circle" HorizontalAlignment="Left" Height="52" Margin="370,152,0,0" Stroke="Black" VerticalAlignment="Top" Width="52" Canvas.Top="{Binding VM_Elevator, UpdateSourceTrigger=PropertyChanged}" Canvas.Left="{Binding VM_Aileron, UpdateSourceTrigger=PropertyChanged}" RenderTransformOrigin="0.5,0.5">
+            <Ellipse x:Name="center_circle" HorizontalAlignment="Left" Height="52" Margin="370,152,0,0" Stroke="Black" VerticalAlignment="Top" Width="52" Canvas.Top="{Binding VM_Elevator}" Canvas.Left="{Binding VM_Aileron}" RenderTransformOrigin="0.5,0.5">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
                         <GradientStop Color="Black" Offset="1"/>
@@ -91,6 +92,32 @@
             </Image.RenderTransform>
         </Image>
         <Image HorizontalAlignment="Left" Height="149" Margin="623,0,-16.4,0" VerticalAlignment="Top" Width="187" Source="https://cdn0.iconfinder.com/data/icons/transport-icons-set-cartoon-style/512/a1238-512.png"/>
+        <Border Padding="10">
+            <Grid x:Name="data" HorizontalAlignment="Left" Height="264" Margin="0,7,0,0" Grid.RowSpan="4" VerticalAlignment="Top" Width="210">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
+                <TextBlock Text="Altimeter:" Name="alimeter" Grid.Row="0" FontStyle="Italic"/>
+                <TextBlock Text="Air Speed:" Name="airSpeed" Grid.Row="1" FontStyle="Italic"/>
+                <TextBlock Text="Flight Direction:" Name="flightDirection" Grid.Row="2" FontStyle="Italic"/>
+                <TextBlock Text="Pitch:" Name="pitch" Grid.Row="3" FontStyle="Italic"/>
+                <TextBlock Text="Roll:" Name="roll" Grid.Row="4" FontStyle="Italic"/>
+                <TextBlock Text="Yaw:" Name="yaw" Grid.Row="5" FontStyle="Italic"/>
+
+                <TextBlock Name="altimeterText" Text="{Binding VM_Altimeter}" Grid.Row="0" TextAlignment="Right"/>
+                <TextBlock Name="airSpeedText" Text="{Binding VM_AirSpeed}" Grid.Row="1" TextAlignment="Right"/>
+                <TextBlock Name="flightDirectionText" Text="{Binding VM_FlightDirection}" Grid.Row="2" TextAlignment="Right"/>
+                <TextBlock Name="pitchText" Text="{Binding VM_Pitch}" Grid.Row="3" TextAlignment="Right"/>
+                <TextBlock Name="rollText" Text="{Binding VM_Roll}" Grid.Row="4" TextAlignment="Right"/>
+                <TextBlock Name="yawText" Text="{Binding VM_Yaw}" Grid.Row="5" TextAlignment="Right"/>
+
+            </Grid>
+        </Border>
     </Grid>
 </Window>
