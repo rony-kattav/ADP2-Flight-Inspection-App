@@ -8,22 +8,13 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="https://blog.tortugabackpacks.com/wp-content/uploads/2019/08/Airplane_2500.jpg"/>
+            <ImageBrush ImageSource="https://www.rd.com/wp-content/uploads/2017/10/Why-Are-Commercial-Airplanes-White-_493536652-Jag_cz.jpg"/>
         </Grid.Background>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <TextBox Grid.ColumnSpan="5" HorizontalAlignment="Left" Height="44" TextWrapping="Wrap" Text="Enter CSV path" VerticalAlignment="Top" Width="550" Margin="30,132,0,0" TextChanged="CsvBox_TextChanged" FontSize="30" Name="csvText" FontWeight="Light" Background="{x:Null}" BorderBrush="{x:Null}"/>
-        <Rectangle Width="550" Opacity="0.5" Fill="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Grid.ColumnSpan="5" Margin="30,176,213.6,232"/>
-        <Rectangle Width="550" Opacity="0.5" Fill="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" Grid.ColumnSpan="5" Margin="30,301,213.6,107"/>
-        <TextBox x:Name="xmlText" Grid.ColumnSpan="5" HorizontalAlignment="Left" Height="44" TextWrapping="Wrap" Text="Enter XML path" VerticalAlignment="Top" Width="550" RenderTransformOrigin="4.376,7.217" Margin="30,252,0,0" FontSize="30" TextChanged="XmlBox_TextChanged" FontWeight="Light" Background="{x:Null}" BorderBrush="{x:Null}"/>
-        <Button x:Name="Apply" Grid.ColumnSpan="5" Content="Apply" HorizontalAlignment="left" Height="62" Margin="281,348,0,0" VerticalAlignment="Center" Width="219" FontSize="30" Background="{x:Null}" Click="Apply_Click" FontWeight="Light" BorderBrush="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"/>
-        <Label Grid.ColumnSpan="5" Content="Please enter the file paths" HorizontalAlignment="Left" VerticalAlignment="Top" Width="385" Margin="211,34,0,0" FontSize="30" FontWeight="light"/>
-
-
+        <Label Content="Please select the file's path" HorizontalAlignment="Left" VerticalAlignment="Top" Width="385" FontStyle="Italic" Margin="211,34,0,0" FontSize="30" FontWeight="light" Height="50"/>
+        <Button x:Name="CSV_file" FontStyle="Italic" FontWeight="Bold" Content="Select CSV file" HorizontalAlignment="Left" Height="40" Margin="50,109,0,0" VerticalAlignment="Top" Width="187" Click="CSV_file_Click" Background="#FF9EC2DA"/>
+        <Button x:Name="XML_file" Content="Select XML file" FontStyle="Italic" FontWeight="Bold" HorizontalAlignment="Left" Height="40" Margin="50,177,0,0" VerticalAlignment="Top" Width="187" Click="XML_file_Click" Background="#FF9EC2DA"/>
+        <TextBox x:Name="CSVText"  HorizontalAlignment="Left" Height="40" Margin="281,109,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="253" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="XMLText" HorizontalAlignment="Left" Height="40" Margin="281,177,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="253" VerticalContentAlignment="Center"/>
+        <Button x:Name="Apply" Content="Apply" HorizontalAlignment="Center" Height="60" Margin="547,350,9.6,10" VerticalAlignment="Center" Width="237" FontSize="30" Click="Apply_Click" FontWeight="Light" Background="{x:Null}" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}"/>
     </Grid>
 </Window>

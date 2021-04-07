@@ -6,12 +6,15 @@
         xmlns:local="clr-namespace:ADP2_Flight_Inspection_App"
         mc:Ignorable="d"
         Title="Menu" Height="450" Width="800">
-	<Grid>
+    <Window.Background>
+        <ImageBrush/>
+    </Window.Background>
+    <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="https://blog.tortugabackpacks.com/wp-content/uploads/2019/08/Airplane_2500.jpg"/>
+            <ImageBrush ImageSource="https://www.rd.com/wp-content/uploads/2017/10/Why-Are-Commercial-Airplanes-White-_493536652-Jag_cz.jpg"/>
         </Grid.Background>
         <StackPanel Margin="10,10,390.333,9.667">
-			<Label FontWeight="Bold" FontSize="30" FontStyle="Italic" Foreground="BlueViolet">Flight Information Options</Label>
+			<Label FontWeight="Bold" FontSize="30" FontStyle="Italic" Foreground="#FF4E48B1">Flight Information Options</Label>
 			<CheckBox Name="mediaPlayer" Margin="30" Checked="CheckBox_Checked" >
 				<TextBlock FontSize="25" FontStyle="Italic"> Media Control</TextBlock>
 			</CheckBox>
@@ -21,8 +24,8 @@
 			<CheckBox Name="navigatorControls" Margin="30" >
 				<TextBlock FontSize="25" FontStyle="Italic"> navigator controls</TextBlock>
 			</CheckBox>
-			<Button Height="36" Margin="90,10,150.333,0" Foreground="DarkMagenta" Background="LightPink" FontWeight="ExtraBold" Click="Button_Click">
-				<TextBlock><Run Text="Apply"/></TextBlock>
+			<Button Height="36" Margin="90,10,150.333,0" Foreground="DarkMagenta" Background="#FFB6CCFF" FontWeight="ExtraBold" Click="Button_Click">
+				<TextBlock Foreground="Black"><Run Text="Apply"/></TextBlock>
 			</Button>
 		</StackPanel>
 

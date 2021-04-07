@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Microsoft.Win32;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -31,23 +32,12 @@ namespace ADP2_Flight_Inspection_App
             //vm = new MediaPlayerViewModel(new MediaPlayerModel());
             //DataContext = vm;
         }
-
-        private void CsvBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            csvchanged = true;
-        }
-
-        private void XmlBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            xmlchanged = true;
-        }
-
+       
         private void Apply_Click(object sender, RoutedEventArgs e)
         {
-          
             List<string> l = new List<string>();
             // read the CSV into array 
-            var reader = new StreamReader(csvText.Text);
+            var reader = new StreamReader(CSVText.Text);
             while (!reader.EndOfStream)
             {
                 var line = reader.ReadLine();
@@ -57,11 +47,29 @@ namespace ADP2_Flight_Inspection_App
             string[] dataArray = l.ToArray();
 
 
-            Menu men = new Menu(dataArray, xmlText.Text);
+            Menu men = new Menu(dataArray, XMLText.Text);
             men.Show();
             this.Close();
         }
+        
 
+        private void CSV_file_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog file = new OpenFileDialog();
+            if (file.ShowDialog() == true)
+            {
+                CSVText.Text = file.FileName;
+            }
+        }
 
+        private void XML_file_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog file = new OpenFileDialog();
+            file.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (file.ShowDialog() == true)
+            {
+                XMLText.Text = file.FileName;
+            }
+        }
     }
 }
