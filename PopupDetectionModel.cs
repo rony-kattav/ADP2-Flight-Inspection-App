@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace ADP2_Flight_Inspection_App
 {
@@ -44,7 +45,22 @@ namespace ADP2_Flight_Inspection_App
         public int Time
         {
             get { return time; }
-            set { time = value; }
+            set { 
+                time = value;
+                nextAnomalyIndex = 0;
+                nextAnomaly = anomalyReport[nextAnomalyIndex];
+                string[] splitstr = nextAnomaly.Split('-');
+                anomalyTime = int.Parse(splitstr[2]);
+
+                while (time > anomalyTime && nextAnomalyIndex < (anomalyreportSize - 1))
+                {
+                    nextAnomalyIndex++;
+                    nextAnomaly = anomalyReport[nextAnomalyIndex];
+                    splitstr = nextAnomaly.Split('-');
+                    anomalyTime = int.Parse(splitstr[2]);
+                }
+
+            }
         }
 
         private int numofrows;
@@ -56,6 +72,8 @@ namespace ADP2_Flight_Inspection_App
         private string XMLpath;
         private string[] dataArray;
         private string DLLPath;
+        // map between the column in the CSV to the feature name
+        private Dictionary<int, string> features;
         
         private List<string> anomalyReport;
         private int nextAnomalyIndex;
@@ -73,9 +91,6 @@ namespace ADP2_Flight_Inspection_App
         }
 
 
-        // map between the coloumn name in the csv to it's coloumn number
-        private Dictionary<string, int> coloumns;
-
         public PopupDetectionModel(string[] array, string xml, Menu men, string dll)
         {
             anomalyReport = new List<string>();
@@ -86,13 +101,47 @@ namespace ADP2_Flight_Inspection_App
             speed = 1;
             time = 0;
             isStop = false;
-            coloumns = new Dictionary<string, int>();
             notifier = men;
             notifier.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e) {
                 NotifyPropertyChanged(e.PropertyName);
             };
-            
+            features = new Dictionary<int, string>();
+            parseXML(xml);
         }
+        
+
+        public void parseXML(string path)
+        {
+            {
+                // counter for the rows on the csv
+                int i = 0;
+                using (XmlReader reader = XmlReader.Create(path))
+                {
+                    while (reader.Read() && String.Compare(reader.Name, "output") != 0)
+                    {
+                    }
+
+                    while (reader.Read() && String.Compare(reader.Name, "output") != 0)
+                    {
+
+                        if (String.Compare(reader.Name, "name") == 0)
+                        {
+                            string name = reader.ReadString();
+                            features.Add(i,name);
+                            i++;
+                        }
+                    }
+                }
+
+            }
+        }
+        
+
+        public string getFeature(int coloumn)
+        {
+            return features[coloumn];
+        }
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -116,9 +165,33 @@ namespace ADP2_Flight_Inspection_App
 
         }
 
+        private void addHeadLineToCSV(string path)
+        {
+            /*
+            int numOfColoumns = features.Count();
+            string headline = "";
+            int i;
+            for(i=0; i<numOfColoumns-1; i++)
+            {
+                headline += i.ToString() + ",";
+            }
+            headline += i.ToString() +"\n";
+            List<string> lines = new List<string>();
+            lines.Add(headline);
+            File.AppendAllLines(path,lines);
+            */
+        }
+
+        private void removeHeadLineFromCSV(string path)
+        {
+
+        }
+
 
         private void getDLLAnomalyReport()
         {
+            //addHeadLineToCSV(@"C:\Users\User\Desktop\flight\anomaly_flight-letters_noHeadLine.csv");
+
             IntPtr pDll = NativeMethods.LoadLibrary(DLLPath);
             if (pDll == IntPtr.Zero)
             {
@@ -222,6 +295,21 @@ namespace ADP2_Flight_Inspection_App
             pAddressOfFunctionToCall,
             typeof(simpleDetecor_getAnomalyString));
 
+
+            pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "simpleDetecor_DeleteAnomaly");
+            if (pAddressOfFunctionToCall == IntPtr.Zero)
+            {
+                Console.WriteLine("There was a problem loading your function.");
+                return;
+
+
+            }
+
+            simpleDetecor_DeleteAnomaly simpleDetecor_deleteAnomaly = (simpleDetecor_DeleteAnomaly)Marshal.GetDelegateForFunctionPointer(
+            pAddressOfFunctionToCall,
+            typeof(simpleDetecor_DeleteAnomaly));
+
+
             string path = @"C:\Users\User\Desktop\flight\reg_flight.csv";
             string anomalyPath = @"C:\Users\User\Desktop\flight\anomaly_flight.csv";
             IntPtr tsNormal = timeseries_create(path);
@@ -237,10 +325,14 @@ namespace ADP2_Flight_Inspection_App
 
             for (int i = 0; i < anomalyreportSize; i++)
             {
+                // get the CharHandler
                 IntPtr anomaly = simpleDetecor_getanomaly(report, i);
+                // get the string from the char handler
                 IntPtr strAnomaly = simpleDetecor_getanomalyString(anomaly);
                 string stranomaly = Marshal.PtrToStringAnsi(strAnomaly);
                 anomalyReport.Add(stranomaly);
+                // free the allocated memory
+                simpleDetecor_deleteAnomaly(anomaly);
 
             }
             nextAnomaly = anomalyReport[0];
@@ -260,44 +352,47 @@ namespace ADP2_Flight_Inspection_App
 
         public void start()
         {
-
-            new Thread(delegate ()
+            // if the something in the dll didnt work,
+            //or that there are no anomalies, there is no need to start this model.
+            if (anomalyReport.Count > 0)
             {
-                int length = dataArray.Length;
-                while (time != length && isStop != true)
+                new Thread(delegate ()
                 {
-                    if(time == anomalyTime)
+                    int length = dataArray.Length;
+                    while (time != length && isStop != true)
                     {
-                        NotifyPropertyChanged("Alarm");
-                        if(nextAnomalyIndex < (anomalyreportSize - 1))
+                        while (time == anomalyTime)
+                        {
+                            NotifyPropertyChanged("Alarm");
+                            if (nextAnomalyIndex < (anomalyreportSize - 1))
+                            {
+                                nextAnomalyIndex++;
+                                nextAnomaly = anomalyReport[nextAnomalyIndex];
+                                string[] splitstr = nextAnomaly.Split('-');
+                                anomalyTime = int.Parse(splitstr[2]);
+
+                            }
+
+
+                        }
+                        while (time > anomalyTime && nextAnomalyIndex < (anomalyreportSize - 1))
                         {
                             nextAnomalyIndex++;
                             nextAnomaly = anomalyReport[nextAnomalyIndex];
                             string[] splitstr = nextAnomaly.Split('-');
                             anomalyTime = int.Parse(splitstr[2]);
+                        }
+                        Time++;
+                        while (speed == 0)
+                        {
 
                         }
-
-
+                        Thread.Sleep((int)(100 / speed));
                     }
-                    else if(time > anomalyTime && nextAnomalyIndex < (anomalyreportSize -1))
-                    {
-                        nextAnomalyIndex++;
-                        nextAnomaly = anomalyReport[nextAnomalyIndex];
-                        string[] splitstr = nextAnomaly.Split('-');
-                        anomalyTime = int.Parse(splitstr[2]);
-                    }
-                    Time++;
-                    while (speed == 0)
-                    {
 
-                    }
-                    Thread.Sleep((int)(100 / speed));
-                }
+                }).Start();
 
-            }).Start();
-
-
+            }
 
         }
 

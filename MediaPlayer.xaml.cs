@@ -21,6 +21,7 @@ namespace ADP2_Flight_Inspection_App
     public partial class MediaPlayerView : Window
     {
         private MediaPlayerViewModel vm;
+        private bool WindowisOpen = true;
 
         public MediaPlayerView(MediaPlayerViewModel viewmodel)
         {
@@ -38,9 +39,10 @@ namespace ADP2_Flight_Inspection_App
         private void NotifyPropertyChanged(string propName) 
         {
 
-            if (String.Compare(propName, "VM_Time") == 0)
+            if (WindowisOpen && String.Compare(propName, "VM_Time") == 0)
             {
                 int t = vm.VM_Time;
+
                 this.Dispatcher.Invoke(() =>
                 {
                     timeSlider.Value = t;
@@ -49,7 +51,19 @@ namespace ADP2_Flight_Inspection_App
                     string seconds = ((t / 10) % 60).ToString();
                     seconds = seconds.PadLeft(2, '0');
                     timePresentor.Text = minutes + ":" + seconds;
+
                 });
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    if (t == vm.numOfRows)
+                    {
+                        this.Close();
+                    }
+
+                });
+
+
 
             }    
             
@@ -81,6 +95,14 @@ namespace ADP2_Flight_Inspection_App
 
         private void stop_Click(object sender, RoutedEventArgs e)
         {
+            vm.VM_Stop = true;
+            this.Close();
         }
+
+        void MediaPlayerView_Closing(object sender, CancelEventArgs e)
+        {
+            WindowisOpen = false;
+        }
+
     }
 }

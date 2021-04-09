@@ -47,6 +47,13 @@ namespace ADP2_Flight_Inspection_App
             }
         }
         private bool VM_stop;
+        public bool VM_Stop
+        {
+            set
+            {
+                VM_Time = numOfRows;
+            }
+        }
 
         public int VM_Time
         {
