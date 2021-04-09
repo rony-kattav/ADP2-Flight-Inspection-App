@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OxyPlot;
 using OxyPlot.Series;
 using OxyPlot.Axes;
+using System.ComponentModel;
 
 
 namespace ADP2_Flight_Inspection_App
@@ -15,98 +16,232 @@ namespace ADP2_Flight_Inspection_App
         private GraphsModel model;
         public PlotModel MyModel { get; private set; }
         public PlotModel corModel { get; private set; }
+
+        public PlotModel correlationModel { get; private set; }
         public List<string> XML_coloumns_names { get; private set; }
-        private string VM_title = "flight data";
-        public string VM_Title
+
+        
+
+        public bool VM_IsStop
         {
-            get
-            {
-                return this.VM_title;
-            }
-            set
-            {
-                if (this.VM_title != value)
+            get { return model.IsStop; }
+            set {
+                if (model.IsStop != value)
                 {
-                    this.VM_title = value;
+                    model.IsStop = value;
                 }
             }
         }
 
-        public GraphsViewModel(GraphsModel model)
+        public string VM_Feature
+        {
+            get { return model.Feature; }
+            set
+            {
+                if (model.Feature != value)
+                {
+                    model.Feature = value;
+                }
+            }
+        }
+
+        public string VM_Title
+        {
+            get
+            {
+                return model.Title;
+            }
+            set
+            {
+                if (model.Title != value)
+                {
+                    model.Title = value;
+                }
+            }
+        }
+
+        public string VM_CorTitle
+        {
+            get
+            {
+                return model.CorTitle;
+            }
+            set
+            {
+                if (model.CorTitle != value)
+                {
+                    model.CorTitle = value;
+                }
+            }
+
+        }
+
+        public string VM_CorrelationTitle
+        {
+            get
+            {
+                return model.CorrelationTitle;
+            }
+            set
+            {
+                if (model.CorrelationTitle != value)
+                {
+                    model.CorrelationTitle = value;
+                }
+            }
+        }
+
+        public List<DataPoint> VM_Measure
+        {
+            get
+            {
+                return model.Measure;
+            }
+        }
+
+        public List<DataPoint> VM_CorMeasure
+        {
+            get
+            {
+                return model.CorMeasure;
+            }
+        }
+
+        public List<ScatterPoint> VM_CorrelationPoints
+        {
+            get
+            {
+                return model.CorrelationPoints;
+            }
+        }
+
+        public int VM_Time
+        {
+            get
+            {
+                return model.Time;
+            }
+        }
+
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    public void NotifyPropertyChanged(string propName)
+        {
+            if (String.Compare(propName, "VM_graphsChanged") == 0)
+            {
+                updateGraphs();
+                if (this.PropertyChanged != null)
+                {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+                }
+
+            }
+            if (String.Compare(propName, "VM_stopWindow") == 0)
+            {
+                
+                if (this.PropertyChanged != null)
+                {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+                }
+
+            }
+        }
+
+
+    public GraphsViewModel(GraphsModel model)
         {
             this.model = model;
-            this.MyModel = new PlotModel { Title = VM_title };
-            this.XML_coloumns_names = this.model.getColoumnsNames();
 
-            LinearAxis x = new LinearAxis { Title = "time", Position=AxisPosition.Bottom };
+            model.PropertyChanged +=
+            delegate (Object sender, PropertyChangedEventArgs e) {
+                NotifyPropertyChanged("VM_" + e.PropertyName);
+            };
+
+            this.MyModel = createMyModel();
+            this.corModel = createCorModel();
+            this.correlationModel = createCorrelationModel();
+            this.XML_coloumns_names = this.model.getColoumnsNames();
+            
+
+        }
+
+        public void updateGraphs()
+        {
+
+            this.MyModel.Title = this.VM_Title;
+            this.corModel.Title = this.VM_CorTitle;
+            this.correlationModel.Title = this.VM_CorrelationTitle;
+
+            this.MyModel.Series.Clear();
+            LineSeries lineSeries = new LineSeries { Color = OxyColors.DarkMagenta };
+            lineSeries.Points.AddRange(this.VM_Measure);
+            this.MyModel.Series.Add(lineSeries);
+
+            this.corModel.Series.Clear();
+            LineSeries corlineSeries = new LineSeries { Color = OxyColors.LightPink };
+            corlineSeries.Points.AddRange(this.VM_CorMeasure);
+            this.corModel.Axes.ElementAt(0).AbsoluteMinimum = Math.Max(VM_Time - 300, 0);
+            this.corModel.Axes.ElementAt(0).AbsoluteMaximum = VM_Time;
+            this.corModel.Series.Add(corlineSeries);
+
+            this.correlationModel.Series.Clear();
+            ScatterSeries scatterSeries;
+            scatterSeries = new ScatterSeries { MarkerType = MarkerType.Circle, MarkerStroke = OxyColors.DarkSalmon, MarkerFill= OxyColors.DeepPink, MarkerStrokeThickness = 1};
+            lock (scatterSeries);
+            scatterSeries.Points.AddRange(this.VM_CorrelationPoints);
+            this.correlationModel.Series.Add(scatterSeries);
+            this.correlationModel.Axes.Clear();
+            this.correlationModel.Axes.Add(new LinearAxis { Title = VM_Title, Position = AxisPosition.Bottom });
+            this.correlationModel.Axes.Add(new LinearAxis { Title = VM_CorTitle, Position = AxisPosition.Left });
+
+        }
+
+        private PlotModel createMyModel()
+        {
+            var plot = new PlotModel { Title = VM_Title, TitleClippingLength=1 };
+            LinearAxis x = new LinearAxis { Title = "time", Position = AxisPosition.Bottom , Unit = "100ms" };
             LinearAxis y = new LinearAxis();
             y.Title = "value";
             y.Position = AxisPosition.Left;
-            this.MyModel.Axes.Add(x);
-            this.MyModel.Axes.Add(y);
-            LineSeries lineSeries = new LineSeries();
-            lineSeries.Points.Add(new DataPoint(0, 0));
-            lineSeries.Points.Add(new DataPoint(10, 20));
-            lineSeries.Points.Add(new DataPoint(20, 30));
+            plot.Axes.Add(x);
+            plot.Axes.Add(y);
 
-            this.MyModel.Series.Add(lineSeries);
-
-
-            this.corModel = new PlotModel { Title = "correlative flight data" };
-            this.corModel.Axes.Add(new LinearAxis { Title = "time", Position = AxisPosition.Bottom });
-            this.corModel.Axes.Add(new LinearAxis { Title = "value", Position = AxisPosition.Left });
-
-            var rand = new Random();
-            List<DataPoint> dataPoints = new List<DataPoint>();
-            for(int i=0; i<10; i++)
-            {
-                dataPoints.Add(new DataPoint(rand.NextDouble(), rand.NextDouble()));
-            }
-
-            Func<DataPoint, double> func = point => point.X;
-
-            IOrderedEnumerable<DataPoint> ordered = dataPoints.OrderBy(func);
-            
-            LineSeries corLineSeries2 = new LineSeries();
-            corLineSeries2.Points.AddRange(ordered);
-            this.corModel.Series.Add(corLineSeries2);
-
+            LineSeries lineSeries = new LineSeries { Color = OxyColors.DarkMagenta };
+            lineSeries.Points.AddRange(this.VM_Measure);
+            plot.Series.Add(lineSeries);
+            return plot;
         }
 
-        public void changeGraphs()
+        private PlotModel createCorModel()
         {
-            var rand = new Random();
+            var plot = new PlotModel { Title = VM_CorTitle, TitleClippingLength = 1 };
+            plot.Axes.Add(new LinearAxis {Key= "timeAxis", Title = "time", Position = AxisPosition.Bottom, Minimum = Math.Max(VM_Time-300,0), Unit = "100ms" });
+            plot.Axes.Add(new LinearAxis {Key="valueAxis", Title = "value", Position = AxisPosition.Left });
 
-            this.MyModel.Title = this.VM_title;
-            LineSeries lineSeries = new LineSeries();
-            lineSeries.Points.Add(new DataPoint(rand.NextDouble()*100, rand.NextDouble()*100));
-            lineSeries.Points.Add(new DataPoint(rand.NextDouble()*100, rand.NextDouble()*100));
-            lineSeries.Points.Add(new DataPoint(20, 20));
-            Func<DataPoint, double> func = point => point.X;
-
-            IOrderedEnumerable<DataPoint> ordered1 = lineSeries.Points.OrderBy(func);
-            LineSeries corLineSeries1 = new LineSeries();
-            corLineSeries1.Points.AddRange(ordered1);
-
-            this.MyModel.Series.Clear();
-            this.MyModel.Series.Add(corLineSeries1);
-
-            
-            List<DataPoint> dataPoints = new List<DataPoint>();
-            for (int i = 0; i < 10; i++)
-            {
-                dataPoints.Add(new DataPoint(rand.NextDouble(), rand.NextDouble()));
-            }
-
-            
-            IOrderedEnumerable<DataPoint> ordered = dataPoints.OrderBy(func);
-
-            LineSeries corLineSeries2 = new LineSeries();
-            corLineSeries2.Points.AddRange(ordered);
-            this.corModel.Series.Clear();
-            this.corModel.Series.Add(corLineSeries2);
+            LineSeries lineSeries = new LineSeries { Color = OxyColors.LightPink };
+            lineSeries.Points.AddRange(this.VM_CorMeasure);
+            plot.Series.Add(lineSeries);
+            return plot;
         }
 
+
+        private PlotModel createCorrelationModel()
+        {
+            var model = new PlotModel { Title = VM_CorrelationTitle, TitleClippingLength = 1 };
+            var scatterSeries = new ScatterSeries { MarkerType = MarkerType.Circle };
+            var lineSeries = new LineSeries { Color = OxyColors.LightSalmon, StrokeThickness= 1};
+
+            scatterSeries.Points.AddRange(VM_CorrelationPoints);
+            //lineSeries.Points.AddRange();  // to add from dll the regLine
+
+            model.Series.Add(scatterSeries);
+            //model.Series.Add(lineSeries);
+            model.Axes.Add(new LinearAxis { Title = VM_Title, Position = AxisPosition.Bottom });
+            model.Axes.Add(new LinearAxis { Title = VM_CorTitle, Position = AxisPosition.Left });
+            return model;
+
+        }
     }
 }
 // TODO: if something has changed (like the title or value) represent the graph.
