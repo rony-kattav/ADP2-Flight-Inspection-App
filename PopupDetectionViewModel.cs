@@ -48,6 +48,10 @@ namespace ADP2_Flight_Inspection_App
                 string[] splitstr = anomaly.Split('-');
                 feature1 = model.getFeature(int.Parse(splitstr[0]));
                 feature2 = model.getFeature(int.Parse(splitstr[1]));
+                if (this.PropertyChanged != null)
+                {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+                }
             }
 
 

@@ -48,18 +48,20 @@ namespace ADP2_Flight_Inspection_App
             set { 
                 time = value;
                 nextAnomalyIndex = 0;
-                nextAnomaly = anomalyReport[nextAnomalyIndex];
-                string[] splitstr = nextAnomaly.Split('-');
-                anomalyTime = int.Parse(splitstr[2]);
-
-                while (time > anomalyTime && nextAnomalyIndex < (anomalyreportSize - 1))
+                if (anomalyreportSize > 0)
                 {
-                    nextAnomalyIndex++;
                     nextAnomaly = anomalyReport[nextAnomalyIndex];
-                    splitstr = nextAnomaly.Split('-');
+                    string[] splitstr = nextAnomaly.Split('-');
                     anomalyTime = int.Parse(splitstr[2]);
-                }
 
+                    while (time > anomalyTime && nextAnomalyIndex < (anomalyreportSize - 1))
+                    {
+                        nextAnomalyIndex++;
+                        nextAnomaly = anomalyReport[nextAnomalyIndex];
+                        splitstr = nextAnomaly.Split('-');
+                        anomalyTime = int.Parse(splitstr[2]);
+                    }
+                }
             }
         }
 
@@ -69,12 +71,36 @@ namespace ADP2_Flight_Inspection_App
             get { return numofrows; }
         }
 
-        private string XMLpath;
         private string[] dataArray;
-        private string DLLPath;
         // map between the column in the CSV to the feature name
         private Dictionary<int, string> features;
-        
+
+        private string regFlightPath;
+        private string anomalyFlightPath;
+        private string dllPath;
+
+        public string DLLPath
+        {
+            set
+            {
+                if (String.Compare(dllPath, value) != 0)
+                {
+                    dllPath = value;
+                    anomalyReport.Clear();
+                    getDLLAnomalyReport();
+                    while (time > anomalyTime && nextAnomalyIndex < (anomalyreportSize - 1))
+                    {
+                        nextAnomalyIndex++;
+                        nextAnomaly = anomalyReport[nextAnomalyIndex];
+                        string[] splitstr = nextAnomaly.Split('-');
+                        anomalyTime = int.Parse(splitstr[2]);
+                    }
+                    
+                }
+
+            }
+        }
+
         private List<string> anomalyReport;
         private int nextAnomalyIndex;
         private int anomalyTime;
@@ -91,12 +117,11 @@ namespace ADP2_Flight_Inspection_App
         }
 
 
-        public PopupDetectionModel(string[] array, string xml, Menu men, string dll)
+        public PopupDetectionModel(string[] array, string xml, Menu men, string dll , string regFlight, string anomalyFlight)
         {
             anomalyReport = new List<string>();
-            XMLpath = xml;
             dataArray = array;
-            DLLPath = dll;
+            dllPath = dll;
             numofrows = array.Length;
             speed = 1;
             time = 0;
@@ -106,6 +131,8 @@ namespace ADP2_Flight_Inspection_App
                 NotifyPropertyChanged(e.PropertyName);
             };
             features = new Dictionary<int, string>();
+            regFlightPath = regFlight;
+            anomalyFlightPath = anomalyFlight;
             parseXML(xml);
         }
         
@@ -165,9 +192,10 @@ namespace ADP2_Flight_Inspection_App
 
         }
 
-        private void addHeadLineToCSV(string path)
+        private string addHeadLineToCSV(string path)
         {
-            /*
+            var csv = new StringBuilder();
+
             int numOfColoumns = features.Count();
             string headline = "";
             int i;
@@ -175,24 +203,39 @@ namespace ADP2_Flight_Inspection_App
             {
                 headline += i.ToString() + ",";
             }
-            headline += i.ToString() +"\n";
-            List<string> lines = new List<string>();
-            lines.Add(headline);
-            File.AppendAllLines(path,lines);
-            */
+            headline += i.ToString();
+            csv.AppendLine(headline);
+
+
+            var reader = new StreamReader(path);
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                csv.AppendLine(line);
+
+            }
+            reader.Close();
+
+            string timesstamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string newpath = (path.Split(new string[] { ".csv" }, StringSplitOptions.None))[0] + timesstamp + ".csv";
+            File.WriteAllText(newpath, csv.ToString());
+            return newpath;
         }
 
         private void removeHeadLineFromCSV(string path)
         {
-
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
         }
 
 
         private void getDLLAnomalyReport()
         {
-            //addHeadLineToCSV(@"C:\Users\User\Desktop\flight\anomaly_flight-letters_noHeadLine.csv");
 
-            IntPtr pDll = NativeMethods.LoadLibrary(DLLPath);
+
+            IntPtr pDll = NativeMethods.LoadLibrary(dllPath);
             if (pDll == IntPtr.Zero)
             {
                 Console.WriteLine("There was a problem loading your DLL.");
@@ -310,10 +353,16 @@ namespace ADP2_Flight_Inspection_App
             typeof(simpleDetecor_DeleteAnomaly));
 
 
-            string path = @"C:\Users\User\Desktop\flight\reg_flight.csv";
-            string anomalyPath = @"C:\Users\User\Desktop\flight\anomaly_flight.csv";
-            IntPtr tsNormal = timeseries_create(path);
-            IntPtr tsAnomaly = timeseries_create(anomalyPath);
+
+            // write a new file that is a copy of the given path but with healines to the coloumns.
+            // after we finish using it, we will erase it.
+            string newfileNormal = addHeadLineToCSV(regFlightPath);
+            string newfileAnomaly = addHeadLineToCSV(anomalyFlightPath);
+
+
+
+            IntPtr tsNormal = timeseries_create(newfileNormal);
+            IntPtr tsAnomaly = timeseries_create(newfileAnomaly);
 
 
             IntPtr sd = simpleDetecor_create();
@@ -335,14 +384,19 @@ namespace ADP2_Flight_Inspection_App
                 simpleDetecor_deleteAnomaly(anomaly);
 
             }
-            nextAnomaly = anomalyReport[0];
-            string[] splitstr = nextAnomaly.Split('-');
-            anomalyTime = int.Parse(splitstr[2]);
+            if(anomalyreportSize > 0)
+            {
+                nextAnomaly = anomalyReport[0];
+                string[] splitstr = nextAnomaly.Split('-');
+                anomalyTime = int.Parse(splitstr[2]);
+            }
+
 
             NativeMethods.FreeLibrary(pDll);
+            removeHeadLineFromCSV(newfileNormal);
+            removeHeadLineFromCSV(newfileAnomaly);
 
         }
-
 
 
         public void connect()
