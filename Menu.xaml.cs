@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,11 @@ namespace ADP2_Flight_Inspection_App
     {
         private string[] CSVArray;
         private string XMLPath;
+        private string CSVPath;
+        private string DLLpath;
+        private bool dllPathChanged;
+        private string Reg_Flightpath;
+        private bool regPathChanged;
 
         private List<IADP2Model> models;
 
@@ -40,19 +47,19 @@ namespace ADP2_Flight_Inspection_App
         }
 
 
-        public Menu(string[] array , string xmlpath, string dll)
+        public Menu(string csvPath , string xmlpath)
         {
 
-            CSVArray = array;
+            readCSV(csvPath);
             XMLPath = xmlpath;
+            CSVPath = csvPath;
+            dllPathChanged = false;
+            regPathChanged = false;
             InitializeComponent();
             models = new List<IADP2Model>();
-            ADP2myModel fgmodel = new ADP2myModel(array,xmlpath, this);
-            PopupDetectionModel pdmodel = new PopupDetectionModel(array,xmlpath,this,dll);
-            PopupDetectionViewModel vmpop = new PopupDetectionViewModel(pdmodel);
-            
+            ADP2myModel fgmodel = new ADP2myModel(CSVArray,xmlpath, this);
             models.Add(fgmodel);
-            models.Add(pdmodel);
+
 
         }
 
@@ -64,6 +71,8 @@ namespace ADP2_Flight_Inspection_App
 
 
         }
+
+
 
         public void NotifyPropertyChanged(Object sender , string propName)
         {
@@ -116,8 +125,16 @@ namespace ADP2_Flight_Inspection_App
                 var navigatorControlForm = new wheel(vmnavigatorControl);
                 
                 models.Add(modelnavigatorControl);
-                //navigatorControlForm.Show();
+                navigatorControlForm.Show();
 
+            }
+            if(AnomaliesDetecting.IsChecked == true && dllPathChanged && regPathChanged)
+            {
+                PopupDetectionModel pdmodel = new PopupDetectionModel(CSVArray, XMLPath, this, DLLpath , Reg_Flightpath, CSVPath);
+                PopupDetectionViewModel vmpop = new PopupDetectionViewModel(pdmodel);
+                models.Add(pdmodel);
+                PopupDetection pview = new PopupDetection(vmpop);
+                pview.Show();
 
             }
 
@@ -133,5 +150,63 @@ namespace ADP2_Flight_Inspection_App
             }
 
         }
+
+        private void AnomalyDetecting_checked(object sender, RoutedEventArgs e)
+        {
+            DLL_file.Visibility = Visibility.Visible;
+            RegFlight.Visibility = Visibility.Visible;
+        }
+
+        private void AnomalyDetecting_unchecked(object sender, RoutedEventArgs e)
+        {
+            DLL_file.Visibility = Visibility.Collapsed;
+            RegFlight.Visibility = Visibility.Collapsed;
+
+        }
+
+        private void DLL_file_Click(object sender, RoutedEventArgs e)
+        {
+            
+            OpenFileDialog file = new OpenFileDialog();
+            if (file.ShowDialog() == true)
+            {
+                DLLpath = file.FileName;
+                if (File.Exists(DLLpath))
+                {
+                    dllPathChanged = true;
+                }
+            }
+
+
+        }
+
+        private void Reg_file_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog file = new OpenFileDialog();
+            if (file.ShowDialog() == true)
+            {
+                Reg_Flightpath = file.FileName;
+                if (File.Exists(Reg_Flightpath))
+                {
+                    regPathChanged = true;
+                }
+            }
+        }
+
+        private void readCSV(string path)
+        {
+            
+                List<string> l = new List<string>();
+                // read the CSV into array 
+                var reader = new StreamReader(path);
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    l.Add(line);
+                }
+                reader.Close();
+                CSVArray = l.ToArray();
+        }
+
     }
 }

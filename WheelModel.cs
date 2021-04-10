@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 
+
+
 namespace ADP2_Flight_Inspection_App
 {
     public class WheelModel : IADP2Model
@@ -285,6 +287,8 @@ namespace ADP2_Flight_Inspection_App
                     }
                     Thread.Sleep((int)(100 / speed));
                 }
+                NotifyPropertyChanged("Done");
+
 
             }).Start();
         }
@@ -293,5 +297,7 @@ namespace ADP2_Flight_Inspection_App
         {
             isStop = true;
         }
+
+
     }
 }

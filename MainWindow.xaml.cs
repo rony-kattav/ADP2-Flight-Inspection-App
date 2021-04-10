@@ -31,26 +31,14 @@ namespace ADP2_Flight_Inspection_App
             InitializeComponent();
             //vm = new MediaPlayerViewModel(new MediaPlayerModel());
             //DataContext = vm;
-            dllpath = @"C:\Users\User\Desktop\flight\DLL\Anomaly_Detector_DLL\Debug\Anomaly_Detector_DLL.dll";
         }
        
         private void Apply_Click(object sender, RoutedEventArgs e)
         {
             if (xmlchanged && csvchanged)
             {
-                List<string> l = new List<string>();
-                // read the CSV into array 
-                var reader = new StreamReader(CSVText.Text);
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-                    l.Add(line);
-                }
-                reader.Close();
-                string[] dataArray = l.ToArray();
 
-
-                Menu men = new Menu(dataArray, XMLText.Text,dllpath);
+                Menu men = new Menu(CSVText.Text, XMLText.Text);
                 men.Show();
                 this.Close();
             }

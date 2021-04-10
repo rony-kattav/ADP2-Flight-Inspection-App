@@ -13,21 +13,26 @@
         <Grid.Background>
             <ImageBrush ImageSource="https://www.rd.com/wp-content/uploads/2017/10/Why-Are-Commercial-Airplanes-White-_493536652-Jag_cz.jpg"/>
         </Grid.Background>
-        <StackPanel Margin="10,10,390.333,9.667">
-			<Label FontWeight="Bold" FontSize="30" FontStyle="Italic" Foreground="#FF4E48B1">Flight Information Options</Label>
-			<CheckBox Name="mediaPlayer" Margin="30" Checked="CheckBox_Checked" >
-				<TextBlock FontSize="25" FontStyle="Italic"> Media Control</TextBlock>
-			</CheckBox>
-			<CheckBox Name="graphs" Margin="30" >
-				<TextBlock FontSize="25" FontStyle="Italic"> graphs</TextBlock>
-			</CheckBox>
-			<CheckBox Name="navigatorControls" Margin="30" >
-				<TextBlock FontSize="25" FontStyle="Italic"> navigator controls</TextBlock>
-			</CheckBox>
-			<Button Height="36" Margin="90,10,150.333,0" Foreground="DarkMagenta" Background="#FFB6CCFF" FontWeight="ExtraBold" Click="Button_Click">
-				<TextBlock Foreground="Black"><Run Text="Apply"/></TextBlock>
-			</Button>
-		</StackPanel>
+        <StackPanel Margin="10,10,10.333,9.667">
+            <Label FontWeight="Bold" FontSize="30" FontStyle="Italic" Foreground="#FF4E48B1">Flight Information Options</Label>
+            <CheckBox Name="mediaPlayer" Margin="30,30,405,30" Checked="CheckBox_Checked" >
+                <TextBlock FontSize="25" FontStyle="Italic"> Media Control</TextBlock>
+            </CheckBox>
+            <CheckBox Name="graphs" Margin="30,30,616.333,30" Height="37" >
+                <TextBlock FontSize="25" FontStyle="Italic"> graphs</TextBlock>
+            </CheckBox>
+            <CheckBox x:Name="AnomaliesDetecting" Margin="370,-285,109.333,0" Height="34" Checked="AnomalyDetecting_checked" Unchecked="AnomalyDetecting_unchecked">
+                <TextBlock FontSize="25" FontStyle="Italic" Width="249"><Run Text="Anomalies Detecting"/></TextBlock>
+            </CheckBox>
+            <CheckBox Name="navigatorControls" Margin="30,30,520.333,30" Height="38" >
+                <TextBlock FontSize="25" FontStyle="Italic"> navigator controls</TextBlock>
+            </CheckBox>
+            <Button Height="49" Margin="298,0,309.333,0" Foreground="DarkMagenta" Background="#FFB6CCFF" FontWeight="ExtraBold" Click="Button_Click">
+                <TextBlock Foreground="Black"><Run Text="Apply"/></TextBlock>
+            </Button>
+            <Button x:Name="DLL_file" FontStyle="Italic" FontWeight="Bold" Content="Select DLL file" HorizontalAlignment="Left" Height="40" Margin="410,-230,0,0" VerticalAlignment="Top" Width="187" Click="DLL_file_Click" Background="#FF9EC2DA" Visibility="Collapsed"/>
+            <Button x:Name="RegFlight" FontStyle="Italic" FontWeight="Bold" Content="Select normal flight file" HorizontalAlignment="Left" Height="40" Margin="410,-170,0,0" VerticalAlignment="Top" Width="187" Click="Reg_file_Click" Background="#FF9EC2DA" Visibility="Collapsed"/>
 
-	</Grid>
+        </StackPanel>
+    </Grid>
 </Window>
