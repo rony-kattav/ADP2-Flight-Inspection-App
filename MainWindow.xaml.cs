@@ -66,5 +66,28 @@ namespace ADP2_Flight_Inspection_App
             xmlchanged = true;
         }
 
+        private void Instructions_file_Click(object sender, RoutedEventArgs e)
+        {
+            string inst = "Hello!\n" +
+                "First, please select the pathes of the CSV anomaly flight and the XML flight.\n" +
+                "Then, you can choose which data you want to see: MediaPlayer, WheelControl, graphs and detections.\n" +
+                "Be adviced! If you want to see the detections of your anomaly flight, you need to select the pathes " +
+                "of a regular flight and an alghorithem for the detections.\n" +
+                "Enjoy your flight (:";
+            MessageBox.Show(inst);
+        }
+
+        private void finish_Click(object sender, RoutedEventArgs e)
+        {
+            filesInstruction.Visibility = Visibility.Collapsed;
+            finish.Visibility = Visibility.Collapsed;
+            headline.Content = "Please select the file's path";
+            CSV_file.Visibility = Visibility.Visible;
+            XML_file.Visibility = Visibility.Visible;
+            CSVText.Visibility = Visibility.Visible;
+            XMLText.Visibility = Visibility.Visible;
+            Apply.Visibility = Visibility.Visible;
+            instructions.Visibility = Visibility.Visible;
+        }
     }
 }
