@@ -56,6 +56,7 @@ namespace ADP2_Flight_Inspection_App
             dllPathChanged = false;
             regPathChanged = false;
             InitializeComponent();
+            updateDLLOptions();
             models = new List<IADP2Model>();
             ADP2myModel fgmodel = new ADP2myModel(CSVArray,xmlpath, this);
             models.Add(fgmodel);
@@ -65,6 +66,18 @@ namespace ADP2_Flight_Inspection_App
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public void updateDLLOptions()
+        {
+            List<string> dllOptions = new List<string>();
+
+            dllOptions.Add("Linear Regression Detector");
+            dllOptions.Add("Inner Circle Detector");
+            dllOptions.Add("Add..");
+
+            DLLlist.ItemsSource = dllOptions;
+
+
+        }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
@@ -115,8 +128,8 @@ namespace ADP2_Flight_Inspection_App
             {
                 var grapgmodel = new GraphsModel(CSVArray, XMLPath, this);
                 models.Add(grapgmodel);
-                //var graphForm = new ExampleWin();
-                //graphForm.Show();
+                var graphForm = new Graphs(new GraphsViewModel(grapgmodel));
+                graphForm.Show();
             }
             if (navigatorControls.IsChecked == true)
             {
@@ -135,6 +148,7 @@ namespace ADP2_Flight_Inspection_App
                 models.Add(pdmodel);
                 PopupDetection pview = new PopupDetection(vmpop);
                 pview.Show();
+                
 
             }
 
@@ -153,13 +167,15 @@ namespace ADP2_Flight_Inspection_App
 
         private void AnomalyDetecting_checked(object sender, RoutedEventArgs e)
         {
-            DLL_file.Visibility = Visibility.Visible;
+            DLLlist.Visibility = Visibility.Visible;
+            ChooseDLLLabel.Visibility = Visibility.Visible;
             RegFlight.Visibility = Visibility.Visible;
         }
 
         private void AnomalyDetecting_unchecked(object sender, RoutedEventArgs e)
         {
-            DLL_file.Visibility = Visibility.Collapsed;
+            DLLlist.Visibility = Visibility.Collapsed;
+            ChooseDLLLabel.Visibility = Visibility.Collapsed;
             RegFlight.Visibility = Visibility.Collapsed;
 
         }
@@ -190,6 +206,10 @@ namespace ADP2_Flight_Inspection_App
                 {
                     regPathChanged = true;
                 }
+                else
+                {
+                    regPathChanged = false;
+                }
             }
         }
 
@@ -208,5 +228,50 @@ namespace ADP2_Flight_Inspection_App
                 CSVArray = l.ToArray();
         }
 
+        private void DLLlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //ComboBoxItem cbi = (ComboBoxItem)DLLlist.SelectedItem;
+            string selection = DLLlist.SelectedItem.ToString();
+            if(String.Compare(selection, "Linear Regression Detector") == 0)
+            {
+                DirectoryInfo parenddir = Directory.GetParent(Directory.GetCurrentDirectory());
+                while (String.Compare(parenddir.Name, "ADP2-Flight Inspection App") != 0)
+                {
+                    parenddir = Directory.GetParent(parenddir.FullName);
+                }
+
+                DLLpath = parenddir.FullName + "\\plugins\\Anomaly_Detector_DLL.dll";
+                dllPathChanged = true;
+            }
+            else if(String.Compare(selection, "Inner Circle Detector") == 0)
+            {
+                DirectoryInfo parenddir = Directory.GetParent(Directory.GetCurrentDirectory());
+                while (String.Compare(parenddir.Name, "ADP2-Flight Inspection App") != 0)
+                {
+                    parenddir = Directory.GetParent(parenddir.FullName);
+                }
+
+                DLLpath = parenddir.FullName + "\\plugins\\Anomaly_Detector_Circle_DLL.dll";
+                dllPathChanged = true;
+            }
+            else if (String.Compare(selection, "Add..") == 0)
+            {
+                OpenFileDialog file = new OpenFileDialog();
+                if (file.ShowDialog() == true)
+                {
+                    DLLpath = file.FileName;
+                    if (File.Exists(Reg_Flightpath))
+                    {
+                        dllPathChanged = true;
+
+                    }
+                    else
+                    {
+                        dllPathChanged = false;
+
+                    }
+                }
+            }
+        }
     }
 }

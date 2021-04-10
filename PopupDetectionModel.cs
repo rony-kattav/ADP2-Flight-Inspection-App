@@ -181,9 +181,20 @@ namespace ADP2_Flight_Inspection_App
             else if (String.Compare(propName, "Time") == 0)
             {
                 Time = notifier.Time;
+                if (this.PropertyChanged != null)
+                {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+                }
             }
 
             else if (String.Compare(propName, "Alarm") == 0) {
+                if (this.PropertyChanged != null)
+                {
+                    this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+                }
+            }
+            else if (String.Compare(propName, "Done") == 0)
+            {
                 if (this.PropertyChanged != null)
                 {
                     this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
@@ -239,6 +250,7 @@ namespace ADP2_Flight_Inspection_App
             if (pDll == IntPtr.Zero)
             {
                 Console.WriteLine("There was a problem loading your DLL.");
+                NativeMethods.FreeLibrary(pDll);
                 return;
             }
 
@@ -246,6 +258,7 @@ namespace ADP2_Flight_Inspection_App
             if (pAddressOfFunctionToCall == IntPtr.Zero)
             {
                 Console.WriteLine("There was a problem loading your function.");
+                NativeMethods.FreeLibrary(pDll);
                 return;
 
 
@@ -257,100 +270,107 @@ namespace ADP2_Flight_Inspection_App
             typeof(timeseries_Create));
 
 
-            pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "simpleDetecor_Create");
+            pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "Anomaly_Detecor_Create");
             if (pAddressOfFunctionToCall == IntPtr.Zero)
             {
                 Console.WriteLine("There was a problem loading your function.");
+                NativeMethods.FreeLibrary(pDll);
                 return;
 
 
             }
 
-            simpleDetecor_Create simpleDetecor_create = (simpleDetecor_Create)Marshal.GetDelegateForFunctionPointer(
+            Anomaly_Detecor_Create simpleDetecor_create = (Anomaly_Detecor_Create)Marshal.GetDelegateForFunctionPointer(
             pAddressOfFunctionToCall,
-            typeof(simpleDetecor_Create));
+            typeof(Anomaly_Detecor_Create));
 
-            pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "simpleDetecor_LearnNormal");
+            pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "Anomaly_Detecor_LearnNormal");
             if (pAddressOfFunctionToCall == IntPtr.Zero)
             {
                 Console.WriteLine("There was a problem loading your function.");
-                return;
-
-
-            }
-
-
-            simpleDetecor_LearnNormal simpleDetecor_learnNormal = (simpleDetecor_LearnNormal)Marshal.GetDelegateForFunctionPointer(
-            pAddressOfFunctionToCall,
-            typeof(simpleDetecor_LearnNormal));
-
-            pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "simpleDetecor_Detect");
-            if (pAddressOfFunctionToCall == IntPtr.Zero)
-            {
-                Console.WriteLine("There was a problem loading your function.");
+                NativeMethods.FreeLibrary(pDll);
                 return;
 
 
             }
 
 
-            simpleDetecor_Detect simpleDetecor_detect = (simpleDetecor_Detect)Marshal.GetDelegateForFunctionPointer(
+            Anomaly_Detecor_LearnNormal simpleDetecor_learnNormal = (Anomaly_Detecor_LearnNormal)Marshal.GetDelegateForFunctionPointer(
             pAddressOfFunctionToCall,
-            typeof(simpleDetecor_Detect));
+            typeof(Anomaly_Detecor_LearnNormal));
 
-
-            pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "simpleDetecor_getReportSize");
+            pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "Anomaly_Detecor_Detect");
             if (pAddressOfFunctionToCall == IntPtr.Zero)
             {
                 Console.WriteLine("There was a problem loading your function.");
+                NativeMethods.FreeLibrary(pDll);
                 return;
 
 
             }
 
-            simpleDetecor_getReportSize simpleDetecor_getreportSize = (simpleDetecor_getReportSize)Marshal.GetDelegateForFunctionPointer(
-            pAddressOfFunctionToCall,
-            typeof(simpleDetecor_getReportSize));
 
-            pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "simpleDetecor_getAnomaly");
+            Anomaly_Detecor_Detect simpleDetecor_detect = (Anomaly_Detecor_Detect)Marshal.GetDelegateForFunctionPointer(
+            pAddressOfFunctionToCall,
+            typeof(Anomaly_Detecor_Detect));
+
+
+            pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "Anomaly_Detecor_getReportSize");
             if (pAddressOfFunctionToCall == IntPtr.Zero)
             {
                 Console.WriteLine("There was a problem loading your function.");
+                NativeMethods.FreeLibrary(pDll);
                 return;
 
 
             }
 
-            simpleDetecor_getAnomaly simpleDetecor_getanomaly = (simpleDetecor_getAnomaly)Marshal.GetDelegateForFunctionPointer(
+            Anomaly_Detecor_getReportSize simpleDetecor_getreportSize = (Anomaly_Detecor_getReportSize)Marshal.GetDelegateForFunctionPointer(
             pAddressOfFunctionToCall,
-            typeof(simpleDetecor_getAnomaly));
+            typeof(Anomaly_Detecor_getReportSize));
 
-            pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "simpleDetecor_getAnomalyString");
+            pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "Anomaly_Detecor_getAnomaly");
             if (pAddressOfFunctionToCall == IntPtr.Zero)
             {
                 Console.WriteLine("There was a problem loading your function.");
+                NativeMethods.FreeLibrary(pDll);
                 return;
 
 
             }
 
-            simpleDetecor_getAnomalyString simpleDetecor_getanomalyString = (simpleDetecor_getAnomalyString)Marshal.GetDelegateForFunctionPointer(
+            Anomaly_Detecor_getAnomaly simpleDetecor_getanomaly = (Anomaly_Detecor_getAnomaly)Marshal.GetDelegateForFunctionPointer(
             pAddressOfFunctionToCall,
-            typeof(simpleDetecor_getAnomalyString));
+            typeof(Anomaly_Detecor_getAnomaly));
 
-
-            pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "simpleDetecor_DeleteAnomaly");
+            pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "Anomaly_Detecor_getAnomalyString");
             if (pAddressOfFunctionToCall == IntPtr.Zero)
             {
                 Console.WriteLine("There was a problem loading your function.");
+                NativeMethods.FreeLibrary(pDll);
                 return;
 
 
             }
 
-            simpleDetecor_DeleteAnomaly simpleDetecor_deleteAnomaly = (simpleDetecor_DeleteAnomaly)Marshal.GetDelegateForFunctionPointer(
+            Anomaly_Detecor_getAnomalyString simpleDetecor_getanomalyString = (Anomaly_Detecor_getAnomalyString)Marshal.GetDelegateForFunctionPointer(
             pAddressOfFunctionToCall,
-            typeof(simpleDetecor_DeleteAnomaly));
+            typeof(Anomaly_Detecor_getAnomalyString));
+
+
+            pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "Anomaly_Detecor_DeleteAnomaly");
+            if (pAddressOfFunctionToCall == IntPtr.Zero)
+            {
+                Console.WriteLine("There was a problem loading your function.");
+                NativeMethods.FreeLibrary(pDll);
+                return;
+
+
+            }
+
+            Anomaly_Detecor_DeleteAnomaly simpleDetecor_deleteAnomaly = (Anomaly_Detecor_DeleteAnomaly)Marshal.GetDelegateForFunctionPointer(
+            pAddressOfFunctionToCall,
+            typeof(Anomaly_Detecor_DeleteAnomaly));
 
 
 
@@ -443,6 +463,7 @@ namespace ADP2_Flight_Inspection_App
                         }
                         Thread.Sleep((int)(100 / speed));
                     }
+                    NotifyPropertyChanged("Done");
 
                 }).Start();
 
@@ -461,25 +482,25 @@ namespace ADP2_Flight_Inspection_App
         private delegate IntPtr timeseries_Create([MarshalAs(UnmanagedType.LPStr)] string path);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate IntPtr simpleDetecor_Create();
+        private delegate IntPtr Anomaly_Detecor_Create();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void simpleDetecor_LearnNormal(IntPtr sd, IntPtr ts);
+        private delegate void Anomaly_Detecor_LearnNormal(IntPtr sd, IntPtr ts);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate IntPtr simpleDetecor_Detect(IntPtr sd, IntPtr ts);
+        private delegate IntPtr Anomaly_Detecor_Detect(IntPtr sd, IntPtr ts);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int simpleDetecor_getReportSize(IntPtr report);
+        private delegate int Anomaly_Detecor_getReportSize(IntPtr report);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate IntPtr simpleDetecor_getAnomaly(IntPtr report, int index);
+        private delegate IntPtr Anomaly_Detecor_getAnomaly(IntPtr report, int index);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate IntPtr simpleDetecor_getAnomalyString(IntPtr cptr);
+        private delegate IntPtr Anomaly_Detecor_getAnomalyString(IntPtr cptr);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void simpleDetecor_DeleteAnomaly(IntPtr cptr);
+        private delegate void Anomaly_Detecor_DeleteAnomaly(IntPtr cptr);
 
 
     }

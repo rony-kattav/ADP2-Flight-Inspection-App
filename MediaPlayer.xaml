@@ -24,6 +24,7 @@
 
         <TextBox HorizontalAlignment="Left" Height="38" TextWrapping="Wrap" Text="Play speed" VerticalAlignment="Top" Width="110" Margin="347.333,17,0,0" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="20" IsReadOnly="True" SelectionBrush="{x:Null}" Grid.Column="2"/>
         <ComboBox Name="speedBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="457.333,17,0,0" Height="38" SelectionChanged="ComboBox_SelectionChanged" Grid.ColumnSpan="2" FontSize="20"  SelectedValue="x 1"  Background="{x:Null}" BorderBrush="{x:Null}" Grid.Column="2" >
+            <ComboBoxItem Content="x 0.5"></ComboBoxItem>
             <ComboBoxItem Content="x 1"></ComboBoxItem>
             <ComboBoxItem Content="x 1.5"></ComboBoxItem>
             <ComboBoxItem Content="x 2"></ComboBoxItem>
