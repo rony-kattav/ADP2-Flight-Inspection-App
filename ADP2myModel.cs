@@ -71,13 +71,13 @@ namespace ADP2_Flight_Inspection_App
 
         public void connect()
         {
-            /*
+            
 
 
             // copy the xml file into the flightgear folder
-            copyXMLToFG();
+            //copyXMLToFG();
             
-
+            /*
             // run the FlightGear application
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
@@ -96,21 +96,29 @@ namespace ADP2_Flight_Inspection_App
 
                 // Retrieve the app's exit code
                 //exitCode = proc.ExitCode;
-            }
-            /*
+            }*/
+            
 
             // connect to port 5400
             IPHostEntry ipHost = Dns.GetHostEntry("localhost");
             IPAddress ipAddr = ipHost.AddressList[1];
             IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 5400);
-            fg = new Socket(ipAddr.AddressFamily,
-                   SocketType.Stream, ProtocolType.Tcp);
+            try
+            {
+                fg = new Socket(ipAddr.AddressFamily,
+                SocketType.Stream, ProtocolType.Tcp);
 
-            fg.Connect(localEndPoint);
+                fg.Connect(localEndPoint);
+
+            }
+            catch (Exception e){
+                isStop = true;
+            }
 
 
 
-            */
+
+
 
 
         }
@@ -118,20 +126,19 @@ namespace ADP2_Flight_Inspection_App
         // copy the xml file from the given path to the flightgear folder
         private void copyXMLToFG()
         {
-            /*
+            
             string newFileName = "C:\\Program Files\\FlightGear 2020.3.6\\data\\Protocol\\playback_small_user.xml";
             //string newFileName = @"C:\Users\User\Desktop\playback_small.xml";
-            Console.WriteLine(XML);
-            
+
             XmlDocument doc = new XmlDocument();
-            doc.Load(XML);
+            doc.Load(XMLpath);
 
             Console.WriteLine(doc.OuterXml);
             if (File.Exists(newFileName))
                 File.Delete(newFileName);
             
             doc.Save(newFileName);
-            */
+            
             
         }
 
@@ -142,9 +149,30 @@ namespace ADP2_Flight_Inspection_App
 
             new Thread(delegate ()
             {
+                StreamWriter writer = null;
+                try
+                {
+                    writer = new StreamWriter(new NetworkStream(fg));
+
+                }
+                catch (Exception e)
+                {
+                    isStop = true;
+                }
+
                 int length = dataArray.Length;
                 while (time != length && isStop != true)
                 {
+                    string line = dataArray[time];
+                    try
+                    {
+                        writer.WriteLine(line);
+
+                    }
+                    catch (Exception e)
+                    {
+                        isStop = true;
+                    }
                     Time++;
                     while (speed == 0)
                     {
@@ -152,29 +180,25 @@ namespace ADP2_Flight_Inspection_App
                     }
                     Thread.Sleep((int)(100 / speed));
                 }
+                stop();
+
 
             }).Start();
-            /*
-             
-                var writer = new StreamWriter(new NetworkStream(fg));
-                while (time!= numofrows && isStop == false)
-                {
-                    string line = dataArray[time];
-                    writer.WriteLine(line);
-                    while(speed == 0)
-                    {
-
-                    }
-                    Thread.Sleep((int)(10 / speed));
-                }       
-                */
 
         }
 
         public void stop()
         {
             isStop = true;
-            fg.Close();
+            try
+            {
+                fg.Close();
+
+
+            }
+            catch (Exception e)
+            {
+            }
 
         }
 
