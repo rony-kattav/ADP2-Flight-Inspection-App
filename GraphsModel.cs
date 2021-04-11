@@ -157,9 +157,6 @@ namespace ADP2_Flight_Inspection_App
             readXML();
             correlatedFeatures = findBestCor();
 
-            // Delete after debug
-            printCorrelatedFea();
-
             title = coloumns.ElementAt(0).Key;
             var key = coloumns.FirstOrDefault(x => x.Value == correlatedFeatures[coloumns[Title]]).Key;
             this.CorTitle = key;
