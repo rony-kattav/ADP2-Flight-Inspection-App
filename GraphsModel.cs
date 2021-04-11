@@ -31,6 +31,7 @@ namespace ADP2_Flight_Inspection_App
             set
             {
                 time = value;
+                Feature = this.title;
             }
         }
 
@@ -75,6 +76,7 @@ namespace ADP2_Flight_Inspection_App
                 var key = coloumns.FirstOrDefault(x => x.Value == corColumn).Key;
                 this.CorTitle = key;
                 this.CorrelationTitle = "The Correlation Between " + this.title + " and " + this.corTitle;
+                NotifyPropertyChanged("graphsNamesChanged");
             }
         }
 
@@ -82,13 +84,16 @@ namespace ADP2_Flight_Inspection_App
             get { return this.title; }
             set {
                 this.title = value;
-                this.measure.Clear();
-                int i = Math.Max(time-300, 0); 
-                while (i<=time)
+                lock (this.measure)
                 {
-                    this.measure.Add(new DataPoint(i, getValueFromCSV(i, this.title)));
-                    i++;
-                }
+                    this.measure.Clear();
+                    int i = Math.Max(time - 300, 0);
+                    while (i <= time)
+                    {
+                        this.measure.Add(new DataPoint(i, getValueFromCSV(i, this.title)));
+                        i++;
+                    }
+                } 
             } 
         }
         // TODO: also setting the correlationPoints of the last 30 sec
@@ -97,12 +102,15 @@ namespace ADP2_Flight_Inspection_App
             set
             {
                 this.corTitle = value;
-                this.corMeasure.Clear();
-                int i = Math.Max(time - 300, 0);
-                while (i <= time)
+                lock (this.corMeasure)
                 {
-                    this.corMeasure.Add(new DataPoint(i, getValueFromCSV(i, this.corTitle)));
-                    i++;
+                    this.corMeasure.Clear();
+                    int i = Math.Max(time - 300, 0);
+                    while (i <= time)
+                    {
+                        this.corMeasure.Add(new DataPoint(i, getValueFromCSV(i, this.corTitle)));
+                        i++;
+                    }
                 }
             }
         }
@@ -113,15 +121,22 @@ namespace ADP2_Flight_Inspection_App
             set
             {
                 this.correlationTitle = value;
-                this.correlationPoints.Clear();
-                this.correlationLineRegPoints.Clear();
-                this.correlationLineRegPoints.AddRange(getLinearReg(this.title, this.corTitle));
-                int i = Math.Max(time - 300, 0);
-                while (i <= time)
-                {
-                    this.correlationPoints.Add(new ScatterPoint(getValueFromCSV(i, this.title), getValueFromCSV(i, this.corTitle), dotSize, colorValue));
-                    i++;
+                lock(this.correlationPoints){
+                    this.correlationPoints.Clear();
+                    int i = Math.Max(time - 300, 0);
+                    while (i <= time)
+                    {
+                        this.correlationPoints.Add(new ScatterPoint(getValueFromCSV(i, this.title), getValueFromCSV(i, this.corTitle), dotSize, colorValue));
+                        i++;
+                    }
+                    lock (this.correlationLineRegPoints)
+                    {
+                        this.correlationLineRegPoints.Clear();
+                        this.correlationLineRegPoints.AddRange(getLinearReg(this.title, this.corTitle));
+                    }
                 }
+                
+                
             }
         }
 
@@ -149,7 +164,10 @@ namespace ADP2_Flight_Inspection_App
             var key = coloumns.FirstOrDefault(x => x.Value == correlatedFeatures[coloumns[Title]]).Key;
             this.CorTitle = key;
             correlationTitle = "The Correlation Between " + title + " and " + corTitle;
-
+            lock (this.correlationLineRegPoints)
+            {
+                this.correlationLineRegPoints.AddRange(getLinearReg(this.title, this.corTitle));
+            }
             notifier = men;
             notifier.PropertyChanged += delegate (Object sender, PropertyChangedEventArgs e) {
                 NotifyPropertyChanged(e.PropertyName);
@@ -280,7 +298,7 @@ namespace ADP2_Flight_Inspection_App
             return linear_regression;
         }
 
-        //--------------------------------------------------------
+        
         private double cov (List<double> X, List<double> Y)
         {
             List<double> XY_Mult = new List<double>();
@@ -307,9 +325,13 @@ namespace ADP2_Flight_Inspection_App
             return (exp1 - exp2);
         }
 
-        //--------------------------------------------------------
+       
         private double getValueFromCSV(int time, string measure)
         {
+            if (time >= dataArray.Length)
+            {
+                return 0;
+            }
             string line = dataArray[time];
             string[] pars = line.Split(',');
             double value = Double.Parse(pars[coloumns[measure]]);
@@ -394,16 +416,27 @@ namespace ADP2_Flight_Inspection_App
                 int length = dataArray.Length;
                 while (time < length && isStop== false)
                 {
-                    if (time > 300)
+                    lock (this.measure)
                     {
-                        this.measure.RemoveAt(0);
-                        this.corMeasure.RemoveAt(0);
-                        this.correlationPoints.RemoveAt(0);
+                        lock (this.corMeasure)
+                        {
+                            lock (this.correlationPoints)
+                            {
+                                if (time > 300)
+                                {
+                                    this.measure.RemoveAt(0);
+                                    this.corMeasure.RemoveAt(0);
+                                    this.correlationPoints.RemoveAt(0);
+                                }
+                                this.measure.Add(new DataPoint(time, getValueFromCSV(time, this.title)));
+                                this.corMeasure.Add(new DataPoint(time, getValueFromCSV(time, this.corTitle)));
+                                this.correlationPoints.Add(new ScatterPoint(getValueFromCSV(time, this.title), getValueFromCSV(time, this.corTitle), dotSize, colorValue));
+
+                            }
+                        }
+
                     }
-                    this.measure.Add(new DataPoint(time, getValueFromCSV(time, this.title)));
-                    this.corMeasure.Add(new DataPoint(time, getValueFromCSV(time, this.corTitle)));
-                    this.correlationPoints.Add(new ScatterPoint(getValueFromCSV(time, this.title), getValueFromCSV(time, this.corTitle), dotSize, colorValue));
-                    NotifyPropertyChanged("graphsChanged");
+                    NotifyPropertyChanged("graphsSeriesChanged");
                     time++;
                     while (speed == 0)
                     {
