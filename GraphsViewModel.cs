@@ -273,7 +273,7 @@ namespace ADP2_Flight_Inspection_App
 
             private PlotModel createMyModel()
         {
-            var plot = new PlotModel { Title = VM_Title, TitleClippingLength = 1 };
+            var plot = new PlotModel { Title = VM_Title };
             LinearAxis x = new LinearAxis { Title = "time", Position = AxisPosition.Bottom, Unit = "100ms" };
             LinearAxis y = new LinearAxis();
             y.Title = "value";
@@ -289,7 +289,7 @@ namespace ADP2_Flight_Inspection_App
 
         private PlotModel createCorModel()
         {
-            var plot = new PlotModel { Title = VM_CorTitle, TitleClippingLength = 1 };
+            var plot = new PlotModel { Title = VM_CorTitle };
             plot.Axes.Add(new LinearAxis { Key = "timeAxis", Title = "time", Position = AxisPosition.Bottom, Minimum = Math.Max(VM_Time - 300, 0), Unit = "100ms" });
             plot.Axes.Add(new LinearAxis { Key = "valueAxis", Title = "value", Position = AxisPosition.Left });
 
@@ -302,7 +302,7 @@ namespace ADP2_Flight_Inspection_App
 
         private PlotModel createCorrelationModel()
         {
-            var model = new PlotModel { Title = VM_CorrelationTitle, TitleClippingLength = 1 };
+            var model = new PlotModel { Title = VM_CorrelationTitle };
             var scatterSeries = new ScatterSeries { MarkerType = MarkerType.Circle };
             var lineSeries = new LineSeries { Color = OxyColors.LightSalmon, StrokeThickness = 1 };
 
