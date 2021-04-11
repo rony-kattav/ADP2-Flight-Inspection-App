@@ -126,7 +126,7 @@ namespace ADP2_Flight_Inspection_App
                         rollText.Text = s;
                     });
                 }
-                if (String.Compare(propName, "VM_Way") == 0)
+                if (String.Compare(propName, "VM_Yaw") == 0)
                 {
                     double yaw = vm.VM_Yaw;
                     this.Dispatcher.Invoke(() =>
