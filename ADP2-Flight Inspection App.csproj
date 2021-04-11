@@ -88,7 +88,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="correlation.cs" />
     <Compile Include="Graphs.xaml.cs">
       <DependentUpon>Graphs.xaml</DependentUpon>
     </Compile>
