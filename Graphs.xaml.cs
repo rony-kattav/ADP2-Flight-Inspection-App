@@ -45,6 +45,7 @@ namespace ADP2_Flight_Inspection_App
                 item.FontStyle = FontStyles.Italic;
                 listBox.Items.Add(item);
             }
+            
         }
 
         private void ListBox_selectionChanged(object sender, SelectionChangedEventArgs e)
@@ -56,7 +57,7 @@ namespace ADP2_Flight_Inspection_App
 
         public void NotifyPropertyChanged(string propName)
         {
-            if (String.Compare(propName, "VM_graphsChanged") == 0)
+            if (String.Compare(propName, "VM_graphsNamesChanged") == 0 || String.Compare(propName, "VM_graphsSeriesChanged") == 0)
             {
                 measure.InvalidatePlot(true);
                 corMeasure.InvalidatePlot(true);
