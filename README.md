@@ -17,9 +17,6 @@ We used polymorphism and created an interface of ViewModel and model, and each o
 This way we could hold a list of models for example and activate shared methods regardless to specific type of it. 
 
 
-
-**add special things the bodek**
-
 # Folders and files
 The FlightGear program should be installed at: C:\Program Files.
 After downloading it, inside Program Files a new FlightGear folder will be created with a bin and a data folders in it.
