@@ -46,3 +46,5 @@ flight to compare the anomaly flight to.
 
 # link to the video
 below is a link to an explenation video of the abilities of the ADP2-Flight-Inspection-App:
+
+https://youtu.be/YhMcndkVHMA
