@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:ADP2_Flight_Inspection_App"
         mc:Ignorable="d"
         Title="Media Player" Height="158" Width="786">
+       
     <Grid Margin="-2,2,2.333,-1.333" Height="128" VerticalAlignment="Top">
         <Grid.Background>
             <ImageBrush ImageSource="https://cdn1.iconfinder.com/data/icons/web-mobile-ui-interface/90/video_stop-01-512.png"/>

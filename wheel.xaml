@@ -8,6 +8,7 @@
         d:DataContext="{d:DesignInstance Type=local:WheelViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="650.667">
+
     <Grid RenderTransformOrigin="0.495,0.441" Background="#FFEAC7EE">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

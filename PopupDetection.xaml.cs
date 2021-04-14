@@ -37,6 +37,7 @@ namespace ADP2_Flight_Inspection_App
             {
                 NotifyPropertyChanged(e.PropertyName);
             };
+            updateDLLOptions();
         }
 
 
@@ -44,6 +45,20 @@ namespace ADP2_Flight_Inspection_App
         {
             WindowisOpen = false;
         }
+
+        public void updateDLLOptions()
+        {
+            List<string> dllOptions = new List<string>();
+
+            dllOptions.Add("Linear Regression Detector");
+            dllOptions.Add("Inner Circle Detector");
+            dllOptions.Add("Add..");
+
+            DLLlist.ItemsSource = dllOptions;
+
+
+        }
+
 
         public void NotifyPropertyChanged(string propName)
         {
@@ -120,7 +135,7 @@ namespace ADP2_Flight_Inspection_App
             }
 
         }
-
+        
         private void switchDLL_clicked(object sender, RoutedEventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
@@ -128,6 +143,41 @@ namespace ADP2_Flight_Inspection_App
             if (file.ShowDialog() == true)
             {
                 if (File.Exists(file.FileName))
+                {
+                    vm.DLLPath = file.FileName;
+
+                }
+            }
+        }
+        
+
+        private void DLLlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string selection = DLLlist.SelectedItem.ToString();
+            if (String.Compare(selection, "Linear Regression Detector") == 0)
+            {
+                DirectoryInfo parenddir = Directory.GetParent(Directory.GetCurrentDirectory());
+                while (String.Compare(parenddir.Name, "ADP2-Flight Inspection App") != 0 && String.Compare(parenddir.Name, "ADP2-Flight-Inspection-App") != 0)
+                {
+                    parenddir = Directory.GetParent(parenddir.FullName);
+                }
+
+                vm.DLLPath = parenddir.FullName + "\\plugins\\Anomaly_Detector_DLL.dll";
+            }
+            else if (String.Compare(selection, "Inner Circle Detector") == 0)
+            {
+                DirectoryInfo parenddir = Directory.GetParent(Directory.GetCurrentDirectory());
+                while (String.Compare(parenddir.Name, "ADP2-Flight Inspection App") != 0 && String.Compare(parenddir.Name, "ADP2-Flight-Inspection-App") != 0)
+                {
+                    parenddir = Directory.GetParent(parenddir.FullName);
+                }
+
+                vm.DLLPath = parenddir.FullName + "\\plugins\\Anomaly_Detector_Circle_DLL.dll";
+            }
+            else if (String.Compare(selection, "Add..") == 0)
+            {
+                OpenFileDialog file = new OpenFileDialog();
+                if (file.ShowDialog() == true)
                 {
                     vm.DLLPath = file.FileName;
 

@@ -235,7 +235,7 @@ namespace ADP2_Flight_Inspection_App
             if(String.Compare(selection, "Linear Regression Detector") == 0)
             {
                 DirectoryInfo parenddir = Directory.GetParent(Directory.GetCurrentDirectory());
-                while (String.Compare(parenddir.Name, "ADP2-Flight Inspection App") != 0)
+                while (String.Compare(parenddir.Name, "ADP2-Flight Inspection App") != 0 && String.Compare(parenddir.Name, "ADP2-Flight-Inspection-App") != 0)
                 {
                     parenddir = Directory.GetParent(parenddir.FullName);
                 }
@@ -246,7 +246,7 @@ namespace ADP2_Flight_Inspection_App
             else if(String.Compare(selection, "Inner Circle Detector") == 0)
             {
                 DirectoryInfo parenddir = Directory.GetParent(Directory.GetCurrentDirectory());
-                while (String.Compare(parenddir.Name, "ADP2-Flight Inspection App") != 0)
+                while (String.Compare(parenddir.Name, "ADP2-Flight Inspection App") != 0 && String.Compare(parenddir.Name, "ADP2-Flight-Inspection-App") != 0)
                 {
                     parenddir = Directory.GetParent(parenddir.FullName);
                 }
@@ -260,6 +260,7 @@ namespace ADP2_Flight_Inspection_App
                 if (file.ShowDialog() == true)
                 {
                     DLLpath = file.FileName;
+                    //DLLlist.Text = DLLpath;
                     if (File.Exists(Reg_Flightpath))
                     {
                         dllPathChanged = true;

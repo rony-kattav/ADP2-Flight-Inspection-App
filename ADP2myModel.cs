@@ -146,10 +146,11 @@ namespace ADP2_Flight_Inspection_App
 
         public void start()
         {
+            StreamWriter writer = null;
+            string line;
 
             new Thread(delegate ()
             {
-                StreamWriter writer = null;
                 try
                 {
                     writer = new StreamWriter(new NetworkStream(fg));
@@ -163,7 +164,7 @@ namespace ADP2_Flight_Inspection_App
                 int length = dataArray.Length;
                 while (time != length && isStop != true)
                 {
-                    string line = dataArray[time];
+                    line = dataArray[time];
                     try
                     {
                         writer.WriteLine(line);
@@ -179,6 +180,15 @@ namespace ADP2_Flight_Inspection_App
 
                     }
                     Thread.Sleep((int)(100 / speed));
+                }
+                line = dataArray[0];
+                try
+                {
+                    writer.WriteLine(line);
+
+                }
+                catch (Exception e)
+                {
                 }
                 stop();
 
