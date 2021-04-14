@@ -1,0 +1,28 @@
+C:\Users\User\source\repos\ADP2-Flight Inspection App\bin\x86\Debug\ADP2-Flight Inspection App.exe.config
+C:\Users\User\source\repos\ADP2-Flight Inspection App\bin\x86\Debug\ADP2-Flight Inspection App.exe
+C:\Users\User\source\repos\ADP2-Flight Inspection App\bin\x86\Debug\ADP2-Flight Inspection App.pdb
+C:\Users\User\source\repos\ADP2-Flight Inspection App\bin\x86\Debug\OxyPlot.dll
+C:\Users\User\source\repos\ADP2-Flight Inspection App\bin\x86\Debug\OxyPlot.Wpf.dll
+C:\Users\User\source\repos\ADP2-Flight Inspection App\bin\x86\Debug\OxyPlot.xml
+C:\Users\User\source\repos\ADP2-Flight Inspection App\bin\x86\Debug\OxyPlot.Wpf.xml
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\Graphs.g.cs
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\MainWindow.g.cs
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\MediaPlayer.g.cs
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\Menu.g.cs
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\PopupDetection.g.cs
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\wheel.g.cs
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\App.g.cs
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\ADP2-Flight Inspection App_MarkupCompile.cache
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\ADP2-Flight Inspection App_MarkupCompile.lref
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\Graphs.baml
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\MainWindow.baml
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\MediaPlayer.baml
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\Menu.baml
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\PopupDetection.baml
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\wheel.baml
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\ADP2-Flight Inspection App.g.resources
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\ADP2_Flight_Inspection_App.Properties.Resources.resources
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\ADP2-Flight Inspection App.csproj.GenerateResource.cache
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\ADP2-Flight Inspection App.csproj.CopyComplete
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\ADP2-Flight Inspection App.exe
+C:\Users\User\source\repos\ADP2-Flight Inspection App\obj\x86\Debug\ADP2-Flight Inspection App.pdb
