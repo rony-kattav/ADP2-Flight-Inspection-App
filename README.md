@@ -44,6 +44,8 @@ flight to compare the anomaly flight to.
 
 # links to the full project's explenation in git
 
+https://github.com/rony-kattav/ADP2-Flight-Inspection-App/tree/main/Explanations%20of%20the%20main%20classes
+
 # link to the video
 below is a link to an explenation video of the abilities of the ADP2-Flight-Inspection-App:
 
