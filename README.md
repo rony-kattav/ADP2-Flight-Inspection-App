@@ -21,7 +21,8 @@ This way we could hold a list of models for example and activate shared methods 
 The FlightGear program should be installed at: C:\Program Files.
 After downloading it, inside Program Files a new FlightGear folder will be created with a bin and a data folders in it.
 In the GIT folder of the ADP2-Flight-Inspection-App project there is the main branch with the lastest changes, a plugin folder 
-with two detection algorithems that can be used with the app, and a folder with PDFs explanations about the main classes. 
+with two detection algorithems that can be used with the app, a folder with PDFs explanations about the main classes and of
+course a folder named "ADP2-Flight Inspection App" with all the project files.
 
 # Prerequisites
 Below is a list of things you need to install and the software:
@@ -29,11 +30,17 @@ Below is a list of things you need to install and the software:
 - Oxyplot Extention in visual studio: right click on references-> Manage NuGet packages-> Brows-> download OxyPlot.Wpf
 
 # Installing and first running
-Fisrt, you need access to the files. You can go to your cmd, and clone the project using the command
-"git clone ssh" when ssh is the one you can fine in the git project under "code".
-You can also dounload the zip folder of the project and extract the files from the zip.
-Now that you are in the directory with our project's files, go to: \ADP2-Flight Inspection App\bin\x86\Debug.
+Fisrt, you need access to the files. You can go to your cmd, get to to your wanted directory and clone the project
+using the command "git clone **SSH**" when ssh is the one you can fine in the git project under "code".
+You can also dounload the zip folder of the project and extract the files from the zip to your wanted directory.
+Now that you are in the directory with our project's files, go to: ADP2-Flight Inspection App->bin->x86->Debug.
 Inside the Debug directory you should open the exe file: "ADP2-Flight Inspection App.exe" and the app will start.
+Please note, when running the application, the executable file needs to be inside the directory "ADP2-Flight Inspection App"
+can be also inside subfloders under this directory) and inside the "ADP2-Flight Inspection App" directory the has to be the
+plugin folder with the dll files.
+This is all already in the correct order in the folder you clone from github so as long as you don't make changes in the
+hirarchy or altist keep it as the instructions, there should not be a problem.
+
 Now you need to follow the instruction as mentioned bellow and also in the app:
 Copy your XML file to the: "C:\Program Files\FlightGear 2020.3.6\data\Protocol" folder.
 After installing the FlightGear simulator, open the program and on the setting copy the folowing lines:
@@ -47,6 +54,7 @@ Now, select the pathes of the anomaly CSV file and the XML file and press the Ap
 A menu of different options for the flight's data will apear now. Select the ones you want the app to show you.
 If you choose to see the detections of the flight, you also need to choose the algorithem for the detections and a regular
 flight to compare the anomaly flight to.
+
 
 # links to the full project's explenation in git
 
