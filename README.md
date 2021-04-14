@@ -31,9 +31,9 @@ Below is a list of things you need to install and the software:
 # Installing and first running
 Copy your XML file to the: "C:\Program Files\FlightGear 2020.3.6\data\Protocol" folder.
 After installing the FlightGear simulator, open the program and on the setting copy the folowing lines:
-[] --generic=socket,in,10,127.0.0.1,5400,tcp,**XMLFileName**
+--generic=socket,in,10,127.0.0.1,5400,tcp,**XMLFileName**
 notice that you need to replace the **XMLFileName** with the wanted file name, and without the .xml at the end.
-[] --fdm=null
+--fdm=null
 
 Now, Press the Fly button on FlightGear and wait for the program to upload. When the program is up, Press the finish button on
 the Flight-Inspection-App.
