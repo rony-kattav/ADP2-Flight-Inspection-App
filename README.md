@@ -29,6 +29,12 @@ Below is a list of things you need to install and the software:
 - Oxyplot Extention in visual studio: right click on references-> Manage NuGet packages-> Brows-> download OxyPlot.Wpf
 
 # Installing and first running
+Fisrt, you need access to the files. You can go to your cmd, and clone the project using the command
+"git clone ssh" when ssh is the one you can fine in the git project under "code".
+You can also dounload the zip folder of the project and extract the files from the zip.
+Now that you are in the directory with our project's files, go to: \ADP2-Flight Inspection App\bin\x86\Debug.
+Inside the Debug directory you should open the exe file: "ADP2-Flight Inspection App.exe" and the app will start.
+Now you need to follow the instruction as mentioned bellow and also in the app:
 Copy your XML file to the: "C:\Program Files\FlightGear 2020.3.6\data\Protocol" folder.
 After installing the FlightGear simulator, open the program and on the setting copy the folowing lines:
 --generic=socket,in,10,127.0.0.1,5400,tcp,**XMLFileName**
