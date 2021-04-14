@@ -55,7 +55,7 @@ A menu of different options for the flight's data will apear now. Select the one
 If you choose to see the detections of the flight, you also need to choose the algorithem for the detections and a regular
 flight to compare the anomaly flight to.
 
-
+If you would like to make any changes in the code, make sure that you are building and debugging on x86.
 # links to the full project's explenation in git
 
 https://github.com/rony-kattav/ADP2-Flight-Inspection-App/tree/main/Explanations%20of%20the%20main%20classes
